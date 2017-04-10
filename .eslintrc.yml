@@ -1,0 +1,4 @@
+extends: rndmem
+rules:
+  capitalized-comments: [1, 'always',
+    ignorePattern: 'todo|null|undefined|true|false|boolean|number|string']

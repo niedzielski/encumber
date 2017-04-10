@@ -1,0 +1,47 @@
+{
+  "name": "encumber",
+  "version": "0.0.0",
+  "description": "Game inventory grid state manager.",
+  "keywords": [
+    "inventory",
+    "game"
+  ],
+  "homepage": "https://github.com/rndmem/encumber",
+  "repository": "github:rndmem/encumber",
+  "bugs": "https://github.com/rndmem/encumber/issues",
+  "scripts": {
+    "lint": "rndlint",
+    "lint:all": "npm run -s lint .",
+    "test": "mocha",
+    "preversion": "[ -z \"$(git status -z)\" ]",
+    "postversion": "git push --follow-tags origin HEAD && npm publish",
+    "prepublish": "npm run -s lint:all && npm -s t",
+    "upgrade": "ncu -au"
+  },
+  "pre-commit": [
+    "lint:all",
+    "test"
+  ],
+  "engines": {
+    "node": "7.7.4"
+  },
+  "devDependencies": {
+    "babel-preset-env": "1.3.3",
+    "babel-register": "6.24.1",
+    "eslint": "3.19.0",
+    "eslint-config-rndmem": "9.1.0",
+    "eslint-plugin-eslint-comments": "1.0.0",
+    "eslint-plugin-html": "2.0.1",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jsdoc": "3.0.0",
+    "eslint-plugin-json": "1.2.0",
+    "eslint-plugin-mocha": "4.9.0",
+    "eslint-plugin-node": "4.2.2",
+    "eslint-plugin-objects": "1.1.1",
+    "eslint-plugin-promise": "3.5.0",
+    "mocha": "3.2.0",
+    "npm-check-updates": "2.10.5",
+    "pre-commit": "1.2.2"
+  },
+  "license": "GPL-3.0"
+}
