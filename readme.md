@@ -1,4 +1,4 @@
-# 🥒 encumber
+# 🍱 encumber
 Game inventory grid state manager.
 
 ## [Changelog](doc/changelog.md)
