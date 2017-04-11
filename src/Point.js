@@ -1,14 +1,18 @@
 /** Immutable. */
 export default class Point {
-  /** @arg {!number} x
-      @arg {!number} y */
+  /**
+   * @param {!number} x
+   * @param {!number} y
+   */
   constructor(x, y) {
     this._x = x
     this._y = y
   }
 
-  /** @arg {?Point} rhs
-      @return {!boolean} */
+  /**
+   * @param {?Point} rhs
+   * @return {!boolean}
+   */
   equal(rhs) {
     return rhs && this.x() === rhs.x() && this.y() === rhs.y()
   }
