@@ -1,13 +1,13 @@
-import ArgumentUtility from './ArgumentUtility'
-
 /** Immutable. */
 export default class Point {
+  private readonly _x: number
+  private readonly _y: number
+
   /**
    * @param {!number} x
    * @param {!number} y
    */
-  constructor(x, y) {
-    ArgumentUtility.assertNonnull(x, y)
+  constructor(x: number, y: number) {
     this._x = x
     this._y = y
   }
@@ -16,13 +16,13 @@ export default class Point {
    * @param {?Point} rhs
    * @return {!boolean}
    */
-  equal(rhs) {
-    return rhs && this.x() === rhs.x() && this.y() === rhs.y()
+  equal(rhs?: Point): boolean {
+    return !!rhs && this.x() === rhs.x() && this.y() === rhs.y()
   }
 
   /** @return {!number} */
-  x() { return this._x }
+  x(): number { return this._x }
 
   /** @return {!number} */
-  y() { return this._y }
+  y(): number { return this._y }
 }

@@ -1,4 +1,14 @@
 extends: rndmem
+parser: typescript-eslint-parser
 rules:
   capitalized-comments: [1, 'always',
     ignorePattern: 'todo|null|undefined|true|false|boolean|number|string']
+  no-implicit-coercion: 0
+
+  # TypeScript
+  no-undef: 0
+  no-undefined: 0
+  space-infix-ops: 0
+  require-jsdoc: 0
+  import/no-unresolved: 0
+  node/no-missing-import: 0
