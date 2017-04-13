@@ -1,3 +1,5 @@
+import ArgumentUtility from './ArgumentUtility'
+
 /** Immutable. */
 export default class Point {
   /**
@@ -5,6 +7,7 @@ export default class Point {
    * @param {!number} y
    */
   constructor(x, y) {
+    ArgumentUtility.assertNonnull(x, y)
     this._x = x
     this._y = y
   }

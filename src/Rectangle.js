@@ -1,3 +1,4 @@
+import ArgumentUtility from './ArgumentUtility'
 import Point from './Point'
 
 /** Immutable. */
@@ -9,6 +10,7 @@ export default class Rectangle {
    *                        Rectangle.
    */
   constructor(point0, point1) {
+    ArgumentUtility.assertNonnull(point0, point1)
     this._point0 = point0
     this._point1 = point1
   }
@@ -105,6 +107,7 @@ export default class Rectangle {
    *                    external.
    */
   containsPoint(point) {
+    ArgumentUtility.assertNonnull(point)
     // eslint-disable-next-line max-len
     return point.x() >= this.topLeft().x() && point.x() <= this.bottomRight().x()
       && point.y() <= this.topLeft().y() && point.y() >= this.bottomRight().y()
@@ -117,6 +120,7 @@ export default class Rectangle {
    *                    disjoint.
    */
   containsRectangle(rectangle) {
+    ArgumentUtility.assertNonnull(rectangle)
     return this.containsPoint(rectangle.point0())
       && this.containsPoint(rectangle.point1())
   }
@@ -129,6 +133,7 @@ export default class Rectangle {
    *                      Rectangle.
    */
   intersection(rectangle) {
+    ArgumentUtility.assertNonnull(rectangle)
     const topLeft = Rectangle._bottomRight(this.topLeft(), rectangle.topLeft())
     const bottomRight = Rectangle._topLeft(this.bottomRight(),
       rectangle.bottomRight())
@@ -143,6 +148,7 @@ export default class Rectangle {
    *                    Rectangles are exclusive.
    */
   intersects(rectangle) {
+    ArgumentUtility.assertNonnull(rectangle)
     const intersection = this.intersection(rectangle)
     return !intersection.empty() || this.containsPoint(intersection.point0())
   }
@@ -157,6 +163,7 @@ export default class Rectangle {
    *                  y-coordinate of the Rectangle.
    */
   static _topLeft(point0, point1) {
+    ArgumentUtility.assertTruthy(point0, point1)
     return new Point(Math.min(point0.x(), point1.x()),
       Math.max(point0.y(), point1.y()))
   }
@@ -168,6 +175,7 @@ export default class Rectangle {
    *                   y-coordinate of the Rectangle.
    */
   static _bottomRight(point0, point1) {
+    ArgumentUtility.assertNonnull(point0, point1)
     return new Point(Math.max(point0.x(), point1.x()),
       Math.min(point0.y(), point1.y()))
   }
