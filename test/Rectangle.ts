@@ -14,7 +14,7 @@ describe('Rectangle', () => {
     test('null', () => {
       const rectangle: Rectangle = new Rectangle(new Point(0, 0),
         new Point(0, 0))
-      expect(rectangle.equal(undefined)).toBe(false)
+      expect(rectangle.equal()).toBe(false)
     })
 
     test('unequal', () => {

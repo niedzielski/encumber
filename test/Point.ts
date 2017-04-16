@@ -9,7 +9,7 @@ describe('Point', () => {
 
     test('null', () => {
       const point: Point = new Point(0, 0)
-      expect(point.equal(undefined)).toBe(false)
+      expect(point.equal()).toBe(false)
     })
 
     test('unequal', () => {
