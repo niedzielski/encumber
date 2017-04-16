@@ -4,24 +4,24 @@ describe('Point', () => {
   describe('equal()', () => {
     test('self', () => {
       const point: Point = new Point(0, 0)
-      expect(point.equal(point)).toBeTruthy()
+      expect(point.equal(point)).toBe(true)
     })
 
     test('null', () => {
       const point: Point = new Point(0, 0)
-      expect(!point.equal(undefined)).toBeTruthy()
+      expect(point.equal(undefined)).toBe(false)
     })
 
     test('unequal', () => {
       const lhs: Point = new Point(0, 0)
       const rhs: Point = new Point(1, 1)
-      expect(!lhs.equal(rhs)).toBeTruthy()
+      expect(lhs.equal(rhs)).toBe(false)
     })
 
     test('equal', () => {
       const lhs: Point = new Point(1, 1)
       const rhs: Point = new Point(1, 1)
-      expect(lhs.equal(rhs)).toBeTruthy()
+      expect(lhs.equal(rhs)).toBe(true)
     })
   })
 
