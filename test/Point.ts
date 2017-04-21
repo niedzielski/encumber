@@ -2,26 +2,36 @@ import Point from '../src/Point'
 
 describe('Point', () => {
   describe('equal()', () => {
-    test('self', () => {
-      const point: Point = new Point(0, 0)
-      expect(point.equal(point)).toBe(true)
+    describe('equal', () => {
+      test('self', () => {
+        const point: Point = new Point(0, 0)
+        expect(point.equal(point)).toBe(true)
+      })
+
+      test('other', () => {
+        const lhs: Point = new Point(1, 1)
+        const rhs: Point = new Point(1, 1)
+        expect(lhs.equal(rhs)).toBe(true)
+      })
     })
 
-    test('null', () => {
-      const point: Point = new Point(0, 0)
-      expect(point.equal()).toBe(false)
-    })
+    describe('unequal', () => {
+      test('x differs', () => {
+        const lhs: Point = new Point(0, 1)
+        const rhs: Point = new Point(1, 1)
+        expect(lhs.equal(rhs)).toBe(false)
+      })
 
-    test('unequal', () => {
-      const lhs: Point = new Point(0, 0)
-      const rhs: Point = new Point(1, 1)
-      expect(lhs.equal(rhs)).toBe(false)
-    })
+      test('y differs', () => {
+        const lhs: Point = new Point(1, 0)
+        const rhs: Point = new Point(1, 1)
+        expect(lhs.equal(rhs)).toBe(false)
+      })
 
-    test('equal', () => {
-      const lhs: Point = new Point(1, 1)
-      const rhs: Point = new Point(1, 1)
-      expect(lhs.equal(rhs)).toBe(true)
+      test('undefined', () => {
+        const point: Point = new Point(0, 0)
+        expect(point.equal()).toBe(false)
+      })
     })
   })
 
