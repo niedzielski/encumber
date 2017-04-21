@@ -32,15 +32,11 @@ export default class Rectangle {
 
   /** @return {!Point} The Point describing the corner with the minimum x and
                        y-coordinate. */
-  minimum(): Point {
-    return Rectangle.minimum(this.point0(), this.point1())
-  }
+  minimum(): Point { return Rectangle._minimum(this.point0(), this.point1()) }
 
   /** @return {!Point} The Point describing the corner with the maximum x and
                        y-coordinate. */
-  maximum(): Point {
-    return Rectangle.maximum(this.point0(), this.point1())
-  }
+  maximum(): Point { return Rectangle._maximum(this.point0(), this.point1()) }
 
   // todo: center
 
@@ -64,49 +60,52 @@ export default class Rectangle {
   /** @return {!number} The number of square units spanned by the Rectangle. */
   area(): number { return this.width() * this.height() }
 
+  /** @return {!boolean} true if this Rectangle spans no area, false if the area
+                         is nonzero. */
+  empty(): boolean { return !this.area() }
+
   /** @return {!boolean} true if the Rectangle is square, false if oblong. */
   square(): boolean { return this.width() === this.height() }
 
   /** @arg {!Point} point
-      @return {!boolean} true if the Point is inclusively bound by the
-                         Rectangle, false if the Point is exclusively
-                         external. */
-  enclosesPoint(point: Point): boolean {
+      @return {!boolean} true if point is inclusively bound by this Rectangle,
+                         false if point is exclusively unenclosed. */
+  containsPoint(point: Point): boolean {
     return point.x() >= this.minimum().x() && point.x() <= this.maximum().x()
       && point.y() >= this.minimum().y() && point.y() <= this.maximum().y()
   }
 
   /** Noncommutative.
       @arg {!Rectangle} rectangle
-      @return {!boolean} true if rectangle is fully inclusively bounded by this
-                         Rectangle, false if partially or completely
-                         disjoint. */
-  enclosesRectangle(rectangle: Rectangle): boolean {
-    return this.enclosesPoint(rectangle.point0())
-      && this.enclosesPoint(rectangle.point1())
+      @return {!boolean} true if rectangle is inclusively within this Rectangle,
+                         false if rectangle is partially or completely
+                         external. */
+  containsRectangle(rectangle: Rectangle): boolean {
+    return this.containsPoint(rectangle.point0())
+      && this.containsPoint(rectangle.point1())
   }
 
   // todo: union
 
   /** @arg {!Rectangle} rectangle
-      @return {!Rectangle} The intersection of this Rectangle and rectangle. */
-  overlap(rectangle: Rectangle): Rectangle {
-    const minimum = Rectangle.maximum(this.minimum(), rectangle.minimum())
-    const maximum = Rectangle.minimum(this.maximum(), rectangle.maximum())
+      @return {!Rectangle} The overlap of this Rectangle and rectangle. */
+  intersection(rectangle: Rectangle): Rectangle {
+    const minimum = Rectangle._maximum(this.minimum(), rectangle.minimum())
+    const maximum = Rectangle._minimum(this.maximum(), rectangle.maximum())
 
-    return this.enclosesPoint(minimum) && this.enclosesPoint(maximum)
+    return this.containsPoint(minimum) && this.containsPoint(maximum)
       ? new Rectangle(minimum, maximum)
       : new Rectangle(minimum, minimum)
   }
 
   /** @arg {!Rectangle} rectangle
-      @return {!boolean} true if an inclusive intersection exists, false if
-                         Rectangles are exclusive. */
-  overlaps(rectangle: Rectangle): boolean {
-    const overlap: Rectangle = this.overlap(rectangle)
-    const point: Point = overlap.point0()
-    return !!overlap.area()
-      || this.enclosesPoint(point) && rectangle.enclosesPoint(point)
+      @return {!boolean} true if an inclusive overlap exists, false if
+                         Rectangles are disjoint. */
+  intersects(rectangle: Rectangle): boolean {
+    const intersection: Rectangle = this.intersection(rectangle)
+    const point: Point = intersection.point0()
+    return !!intersection.area()
+      || this.containsPoint(point) && rectangle.containsPoint(point)
   }
 
   // todo: translate
@@ -116,7 +115,7 @@ export default class Rectangle {
       @arg {!Point} point1
       @return {!Point} The Point describing the corner with the minimum x and
                        y-coordinate. */
-  private static minimum(point0: Point, point1: Point): Point {
+  private static _minimum(point0: Point, point1: Point): Point {
     return new Point(Math.min(point0.x(), point1.x()),
       Math.min(point0.y(), point1.y()))
   }
@@ -125,7 +124,7 @@ export default class Rectangle {
       @arg {!Point} point1
       @return {!Point} The Point describing the corner with the maximum x and
                        y-coordinate. */
-  private static maximum(point0: Point, point1: Point): Point {
+  private static _maximum(point0: Point, point1: Point): Point {
     return new Point(Math.max(point0.x(), point1.x()),
       Math.max(point0.y(), point1.y()))
   }

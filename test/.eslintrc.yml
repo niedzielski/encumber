@@ -1,2 +1,4 @@
 env:
   jest: true
+rules:
+  max-nested-callbacks: [1, {max: 6}]
