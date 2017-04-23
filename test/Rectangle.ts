@@ -4,676 +4,313 @@ import Point from '../src/Point'
 import Rectangle from '../src/Rectangle'
 
 describe('Rectangle', () => {
-  describe('equal()', () => {
-    describe('equal', () => {
-      test('self', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        expect(rectangle.equal(rectangle)).toBe(true)
-      })
+  describe('Given an empty Rectangle at the origin [0 0 0 0]', () => {
+    const point: Point = new Point(0, 0)
+    const rectangle0: Rectangle = new Rectangle(point, point)
 
-      test('order differs', () => {
-        const lhs: Rectangle = new Rectangle(new Point(0, 0), new Point(1, 1))
-        const rhs: Rectangle = new Rectangle(new Point(1, 1), new Point(0, 0))
-        expect(lhs.equal(rhs)).toBe(true)
-      })
-
-      test('coordinate differs', () => {
-        const lhs: Rectangle = new Rectangle(new Point(0, 0), new Point(1, 1))
-        const rhs: Rectangle = new Rectangle(new Point(1, 0), new Point(0, 1))
-        expect(lhs.equal(rhs)).toBe(true)
-      })
+    test('equal(self)', () => {
+      expect(rectangle0.equal(rectangle0)).toBe(true)
     })
 
-    describe('unequal', () => {
-      test('unequal', () => {
-        const lhs: Rectangle = new Rectangle(new Point(0, 0), new Point(0, 0))
-        const rhs: Rectangle = new Rectangle(new Point(0, 0), new Point(1, 1))
-        expect(lhs.equal(rhs)).toBe(false)
-      })
-
-      test('undefined', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        expect(rectangle.equal()).toBe(false)
-      })
-    })
-  })
-
-  describe('point0()', () => {
-    test('origin', () => {
-      const point0: Point = new Point(0, 0)
-      const rectangle: Rectangle = new Rectangle(point0, new Point(0, 0))
-      expect(rectangle.point0().equal(point0)).toBe(true)
+    test('equal(undefined)', () => {
+      expect(rectangle0.equal()).toBe(false)
     })
 
-    test('nonzero', () => {
-      const point0: Point = new Point(1, 1)
-      const rectangle: Rectangle = new Rectangle(point0, new Point(0, 0))
-      expect(rectangle.point0().equal(point0)).toBe(true)
-    })
-  })
+    test('point0()', () => expect(rectangle0.point0().equal(point)).toBe(true))
 
-  describe('point1()', () => {
-    test('origin', () => {
-      const point1: Point = new Point(0, 0)
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0), point1)
-      expect(rectangle.point1().equal(point1)).toBe(true)
+    test('point1()', () => expect(rectangle0.point1().equal(point)).toBe(true))
+
+    test('minimum()', () => {
+      expect(rectangle0.minimum().equal(point)).toBe(true)
     })
 
-    test('nonzero', () => {
-      const point1: Point = new Point(1, 1)
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0), point1)
-      expect(rectangle.point1().equal(point1)).toBe(true)
-    })
-  })
-
-  describe('minimum()', () => {
-    test('empty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(0, 0))
-      expect(rectangle.minimum().equal(new Point(0, 0))).toBe(true)
+    test('maximum()', () => {
+      expect(rectangle0.maximum().equal(point)).toBe(true)
     })
 
-    describe('nonempty', () => {
-      test('lhs < rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.minimum().equal(new Point(0, 0))).toBe(true)
-      })
+    test('width()', () => expect(rectangle0.width()).toBe(0))
 
-      test('lhs > rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(0, 0))
-        expect(rectangle.minimum().equal(new Point(0, 0))).toBe(true)
-      })
+    test('height()', () => expect(rectangle0.height()).toBe(0))
 
-      test('negative', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(0, 0))
-        expect(rectangle.minimum().equal(new Point(-1, -1))).toBe(true)
-      })
+    test('diagonal()', () => expect(rectangle0.diagonal()).toBe(0))
 
-      test('coordinates differ', () => {
-        // eslint-disable-next-line no-magic-numbers
-        const rectangle: Rectangle = new Rectangle(new Point(2, 3),
-          new Point(1, 4)) // eslint-disable-line no-magic-numbers
-        // eslint-disable-next-line no-magic-numbers
-        expect(rectangle.minimum().equal(new Point(1, 3))).toBe(true)
-      })
-    })
-  })
+    test('perimeter()', () => expect(rectangle0.perimeter()).toBe(0))
 
-  describe('maximum()', () => {
-    test('empty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(0, 0))
-      expect(rectangle.maximum().equal(new Point(0, 0))).toBe(true)
+    test('area()', () => expect(rectangle0.area()).toBe(0))
+
+    test('empty()', () => expect(rectangle0.empty()).toBe(true))
+
+    test('square()', () => expect(rectangle0.square()).toBe(true))
+
+    test('containsPoint(disjoint)', () => {
+      expect(rectangle0.containsPoint(new Point(1, 1))).toBe(false)
     })
 
-    describe('nonempty', () => {
-      test('lhs < rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.maximum().equal(new Point(1, 1))).toBe(true)
-      })
-
-      test('lhs > rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(0, 0))
-        expect(rectangle.maximum().equal(new Point(1, 1))).toBe(true)
-      })
-
-      test('negative', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(0, 0))
-        expect(rectangle.maximum().equal(new Point(0, 0))).toBe(true)
-      })
-
-      test('coordinates differ', () => {
-        // eslint-disable-next-line no-magic-numbers
-        const rectangle: Rectangle = new Rectangle(new Point(2, 3),
-          new Point(1, 4)) // eslint-disable-line no-magic-numbers
-        // eslint-disable-next-line no-magic-numbers
-        expect(rectangle.maximum().equal(new Point(2, 4))).toBe(true)
-      })
-    })
-  })
-
-  describe('width()', () => {
-    test('empty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(0, 0))
-      expect(rectangle.width()).toBe(0)
+    test('containsPoint(boundary)', () => {
+      expect(rectangle0.containsPoint(point)).toBe(true)
     })
 
-    describe('nonempty', () => {
-      test('lhs < rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.width()).toBe(1)
-      })
-
-      test('lhs > rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(0, 0))
-        expect(rectangle.width()).toBe(1)
-      })
-
-      test('negative', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(0, 0))
-        expect(rectangle.width()).toBe(1)
-      })
-
-      test('coordinates differ', () => {
-        // eslint-disable-next-line no-magic-numbers
-        const rectangle: Rectangle = new Rectangle(new Point(2, 3),
-          new Point(1, 4)) // eslint-disable-line no-magic-numbers
-        expect(rectangle.width()).toBe(1)
-      })
-    })
-  })
-
-  describe('height()', () => {
-    test('empty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(0, 0))
-      expect(rectangle.height()).toBe(0)
+    test('containsRectangle(self)', () => {
+      expect(rectangle0.containsRectangle(rectangle0)).toBe(true)
     })
 
-    describe('nonempty', () => {
-      test('lhs < rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.height()).toBe(1)
-      })
-
-      test('lhs > rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(0, 0))
-        expect(rectangle.height()).toBe(1)
-      })
-
-      test('negative', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(0, 0))
-        expect(rectangle.height()).toBe(1)
-      })
-
-      test('coordinates differ', () => {
-        // eslint-disable-next-line no-magic-numbers
-        const rectangle: Rectangle = new Rectangle(new Point(2, 3),
-          new Point(1, 4)) // eslint-disable-line no-magic-numbers
-        expect(rectangle.height()).toBe(1)
-      })
-    })
-  })
-
-  describe('diagonal()', () => {
-    test('empty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(0, 0))
-      expect(rectangle.diagonal()).toBe(0)
+    test('intersection(self)', () => {
+      expect(rectangle0.intersection(rectangle0).equal(rectangle0)).toBe(true)
     })
 
-    describe('nonempty', () => {
-      test('lhs < rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(3, 4)) // eslint-disable-line no-magic-numbers
-        // eslint-disable-next-line no-magic-numbers
-        expect(rectangle.diagonal()).toBe(5)
-      })
-
-      test('lhs > rhs', () => {
-        // eslint-disable-next-line no-magic-numbers
-        const rectangle: Rectangle = new Rectangle(new Point(3, 4),
-          new Point(0, 0))
-        // eslint-disable-next-line no-magic-numbers
-        expect(rectangle.diagonal()).toBe(5)
-      })
-
-      test('negative', () => {
-        // eslint-disable-next-line no-magic-numbers
-        const rectangle: Rectangle = new Rectangle(new Point(-3, -4),
-          new Point(0, 0))
-        // eslint-disable-next-line no-magic-numbers
-        expect(rectangle.diagonal()).toBe(5)
-      })
-
-      test('coordinates differ', () => {
-        // eslint-disable-next-line no-magic-numbers
-        const rectangle: Rectangle = new Rectangle(new Point(2, 3),
-          new Point(1, 4)) // eslint-disable-line no-magic-numbers
-        expect(rectangle.diagonal()).toBe(Math.sqrt(2))
-      })
-    })
-  })
-
-  describe('perimeter()', () => {
-    test('empty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(0, 0))
-      expect(rectangle.perimeter()).toBe(0)
+    test('intersects(self)', () => {
+      expect(rectangle0.intersects(rectangle0)).toBe(true)
     })
 
-    describe('nonempty', () => {
-      test('lhs < rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        // eslint-disable-next-line no-magic-numbers
-        expect(rectangle.perimeter()).toBe(4)
-      })
+    describe('and a second disjoint Rectangle [1 1 2 2]', () => {
+      const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
+        new Point(2, 2))
 
-      test('lhs > rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(0, 0))
-        // eslint-disable-next-line no-magic-numbers
-        expect(rectangle.perimeter()).toBe(4)
-      })
+      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
 
-      test('negative', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(0, 0))
-        // eslint-disable-next-line no-magic-numbers
-        expect(rectangle.perimeter()).toBe(4)
-      })
-
-      test('coordinates differ', () => {
-        // eslint-disable-next-line no-magic-numbers
-        const rectangle: Rectangle = new Rectangle(new Point(2, 3),
-          new Point(1, 4)) // eslint-disable-line no-magic-numbers
-        // eslint-disable-next-line no-magic-numbers
-        expect(rectangle.perimeter()).toBe(4)
-      })
-    })
-  })
-
-  describe('area()', () => {
-    test('empty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(0, 0))
-      expect(rectangle.area()).toBe(0)
-    })
-
-    describe('nonempty', () => {
-      test('lhs < rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.area()).toBe(1)
-      })
-
-      test('lhs > rhs', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(0, 0))
-        expect(rectangle.area()).toBe(1)
-      })
-
-      test('negative', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(0, 0))
-        expect(rectangle.area()).toBe(1)
-      })
-
-      test('coordinates differ', () => {
-        // eslint-disable-next-line no-magic-numbers
-        const rectangle: Rectangle = new Rectangle(new Point(2, 3),
-          new Point(1, 4)) // eslint-disable-line no-magic-numbers
-        expect(rectangle.area()).toBe(1)
-      })
-    })
-  })
-
-  describe('empty()', () => {
-    test('empty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(0, 0))
-      expect(rectangle.empty()).toBe(true)
-    })
-
-    test('nonempty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(1, 1))
-      expect(rectangle.empty()).toBe(false)
-    })
-  })
-
-  describe('square()', () => {
-    test('empty', () => {
-      const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(0, 0))
-      expect(rectangle.square()).toBe(true)
-    })
-
-    describe('nonempty', () => {
-      test('square', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.square()).toBe(true)
-      })
-
-      test('oblong', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 2))
-        expect(rectangle.square()).toBe(false)
-      })
-    })
-  })
-
-  describe('containsPoint()', () => {
-    describe('empty', () => {
-      test('disjoint', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        expect(rectangle.containsPoint(new Point(1, 1))).toBe(false)
-      })
-
-      test('boundary', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        expect(rectangle.containsPoint(new Point(0, 0))).toBe(true)
-      })
-    })
-
-    describe('nonempty', () => {
-      test('disjoint', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.containsPoint(new Point(2, 2))).toBe(false)
-      })
-
-      test('boundary', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.containsPoint(new Point(1, 1))).toBe(true)
-      })
-
-      test('within', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(2, 2))
-        expect(rectangle.containsPoint(new Point(1, 1))).toBe(true)
-      })
-    })
-  })
-
-  describe('containsRectangle()', () => {
-    describe('empty', () => {
-      test('self', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        expect(rectangle.containsRectangle(rectangle)).toBe(true)
-      })
-
-      test('disjoint', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(2, 2))
+      test('containsRectangle()', () => {
         expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
       })
 
-      test('boundary', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(1, 1))
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(true)
-      })
-
-      test('within', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(2, 2))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(1, 1))
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(true)
-      })
-    })
-
-    describe('nonempty', () => {
-      test('self', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.containsRectangle(rectangle)).toBe(true)
-      })
-
-      test('disjoint', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(0, 0))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(2, 2))
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
-      })
-
-      test('boundary', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(2, 2))
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
-      })
-
-      describe('intersects', () => {
-        test('minimum contained', () => {
-          const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-            new Point(1, 1))
-          const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-            new Point(2, 2))
-          expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
-        })
-
-        test('maximum contained', () => {
-          const rectangle0: Rectangle = new Rectangle(new Point(1, 1),
-            new Point(2, 2))
-          const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
-            new Point(1, 1))
-          expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
-        })
-
-        test('no corners contained', () => {
-          const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-            new Point(1, 1))
-          const rectangle1: Rectangle = new Rectangle(new Point(-1, -1),
-            new Point(2, 2))
-          expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
-        })
-      })
-
-      test('within', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(2, 2))
-        const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(true)
-      })
-    })
-  })
-
-  describe('intersection()', () => {
-    describe('empty', () => {
-      test('self', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        expect(rectangle.intersection(rectangle).equal(rectangle)).toBe(true)
-      })
-
-      test('disjoint', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(2, 2))
+      test('intersection()', () => {
         expect(rectangle0.intersection(rectangle1).empty()).toBe(true)
       })
 
-      test('boundary', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(1, 1))
-        expect(rectangle0.intersection(rectangle1).equal(rectangle1)).toBe(true)
+      test('intersects()', () => {
+        expect(rectangle0.intersects(rectangle1)).toBe(false)
+      })
+    })
+  })
+
+  for (const sign of [-1, 1]) {
+    for (const x of [0, 1]) {
+      for (const y of [0, 1]) {
+        const point0: Point = new Point(sign * x, sign * y)
+        const point1: Point = new Point(sign * (1 - x), sign * (1 - y))
+        const rectangle0: Rectangle = new Rectangle(point0, point1)
+        const description: string = 'Given a unit Rectangle at the origin with'
+          + ` ${rectangle0} order`
+
+        describe(description, () => {
+          test('equal(self)', () => {
+            expect(rectangle0.equal(rectangle0)).toBe(true)
+          })
+
+          test('equal(undefined)', () => expect(rectangle0.equal()).toBe(false))
+
+          test('point0()', () => {
+            expect(rectangle0.point0().equal(point0)).toBe(true)
+          })
+
+          test('point1()', () => {
+            expect(rectangle0.point1().equal(point1)).toBe(true)
+          })
+
+          test('minimum()', () => {
+            const point: Point = new Point(Math.min(0, sign), Math.min(0, sign))
+            expect(rectangle0.minimum().equal(point)).toBe(true)
+          })
+
+          test('maximum()', () => {
+            const point: Point = new Point(Math.max(0, sign), Math.max(0, sign))
+            expect(rectangle0.maximum().equal(point)).toBe(true)
+          })
+
+          test('width()', () => expect(rectangle0.width()).toBe(1))
+
+          test('height()', () => expect(rectangle0.height()).toBe(1))
+
+          test('diagonal()', () => {
+            expect(rectangle0.diagonal()).toBe(Math.sqrt(2))
+          })
+
+          test('perimeter()', () => expect(rectangle0.perimeter()).toBe(4))
+
+          test('area()', () => expect(rectangle0.area()).toBe(1))
+
+          test('empty()', () => expect(rectangle0.empty()).toBe(false))
+
+          test('square()', () => expect(rectangle0.square()).toBe(true))
+
+          test('containsPoint(disjoint)', () => {
+            expect(rectangle0.containsPoint(new Point(2, 2))).toBe(false)
+          })
+
+          test('containsPoint(boundary)', () => {
+            expect(rectangle0.containsPoint(point0)).toBe(true)
+          })
+
+          test('containsRectangle(self)', () => {
+            expect(rectangle0.containsRectangle(rectangle0)).toBe(true)
+          })
+
+          test('intersection(self)', () => {
+            expect(rectangle0.intersection(rectangle0).equal(rectangle0))
+              .toBe(true)
+          })
+
+          test('intersects(self)', () => {
+            expect(rectangle0.intersects(rectangle0)).toBe(true)
+          })
+
+          describe('and a second disjoint Rectangle [2 2 3 3]', () => {
+            const rectangle1: Rectangle = new Rectangle(new Point(2, 2),
+              new Point(3, 3))
+
+            test('equal()', () => {
+              expect(rectangle0.equal(rectangle1)).toBe(false)
+            })
+
+            test('containsRectangle()', () => {
+              expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
+            })
+
+            test('intersection()', () => {
+              expect(rectangle0.intersection(rectangle1).empty()).toBe(true)
+            })
+
+            test('intersects()', () => {
+              expect(rectangle0.intersects(rectangle1)).toBe(false)
+            })
+          })
+        })
+      }
+    }
+  }
+
+  describe('Given an oblong Rectangle [2 1 6 4]', () => {
+    const point0: Point = new Point(2, 1)
+    const point1: Point = new Point(6, 4)
+    const rectangle0: Rectangle = new Rectangle(point0, point1)
+
+    test('equal(self)', () => expect(rectangle0.equal(rectangle0)).toBe(true))
+
+    test('equal(undefined)', () => expect(rectangle0.equal()).toBe(false))
+
+    test('point0()', () => expect(rectangle0.point0().equal(point0)).toBe(true))
+
+    test('point1()', () => {
+      expect(rectangle0.point1().equal(point1)).toBe(true)
+    })
+
+    test('minimum()', () => {
+      expect(rectangle0.minimum().equal(point0)).toBe(true)
+    })
+
+    test('maximum()', () => {
+      expect(rectangle0.maximum().equal(point1)).toBe(true)
+    })
+
+    test('width()', () => expect(rectangle0.width()).toBe(4))
+
+    test('height()', () => expect(rectangle0.height()).toBe(3))
+
+    test('diagonal()', () => expect(rectangle0.diagonal()).toBe(5))
+
+    test('perimeter()', () => expect(rectangle0.perimeter()).toBe(14))
+
+    test('area()', () => expect(rectangle0.area()).toBe(12))
+
+    test('empty()', () => expect(rectangle0.empty()).toBe(false))
+
+    test('square()', () => expect(rectangle0.square()).toBe(false))
+
+    test('containsPoint(disjoint)', () => {
+      expect(rectangle0.containsPoint(new Point(1, 1))).toBe(false)
+    })
+
+    test('containsPoint(boundary)', () => {
+      expect(rectangle0.containsPoint(point0)).toBe(true)
+    })
+
+    test('containsRectangle(self)', () => {
+      expect(rectangle0.containsRectangle(rectangle0)).toBe(true)
+    })
+
+    test('intersection(self)', () => {
+      expect(rectangle0.intersection(rectangle0).equal(rectangle0)).toBe(true)
+    })
+
+    test('intersects(self)', () => {
+      expect(rectangle0.intersects(rectangle0)).toBe(true)
+    })
+
+    describe('and a second superset Rectangle [1 0 7 5]', () => {
+      const rectangle1: Rectangle = new Rectangle(new Point(1, 0),
+        new Point(7, 5))
+
+      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
+
+      test('containsRectangle()', () => {
+        expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
       })
 
-      test('within', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(2, 2))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(1, 1))
-        expect(rectangle0.intersection(rectangle1).equal(rectangle1)).toBe(true)
+      test('intersection()', () => {
+        expect(rectangle0.intersection(rectangle1).equal(rectangle0)).toBe(true)
+      })
+
+      test('intersects()', () => {
+        expect(rectangle0.intersects(rectangle1)).toBe(true)
       })
     })
 
-    describe('nonempty', () => {
-      test('self', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.intersection(rectangle).equal(rectangle)).toBe(true)
+    describe('and a second subset Rectangle [3 2 5 3]', () => {
+      const rectangle1: Rectangle = new Rectangle(new Point(3, 2),
+        new Point(5, 3))
+
+      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
+
+      test('containsRectangle()', () => {
+        expect(rectangle0.containsRectangle(rectangle1)).toBe(true)
       })
 
-      test('disjoint', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(0, 0))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(2, 2))
-        expect(rectangle0.intersection(rectangle1).empty()).toBe(true)
+      test('intersection()', () => {
+        expect(rectangle0.intersection(rectangle1).equal(rectangle1)).toBe(true)
       })
 
-      test('boundary', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(2, 2))
-        const expected: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(1, 1))
+      test('intersects()', () => {
+        expect(rectangle0.intersects(rectangle1)).toBe(true)
+      })
+    })
+
+    describe('and a second bordering Rectangle [0 0 2 1]', () => {
+      const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
+        new Point(2, 1))
+
+      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
+
+      test('containsRectangle()', () => {
+        expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
+      })
+
+      test('intersection()', () => {
+        const expected: Rectangle = new Rectangle(new Point(2, 1),
+          new Point(2, 1))
         expect(rectangle0.intersection(rectangle1).equal(expected)).toBe(true)
       })
 
-      describe('intersects', () => {
-        test('minimum contained', () => {
-          const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-            new Point(1, 1))
-          const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-            new Point(2, 2))
-          const expected: Rectangle = new Rectangle(new Point(1, 1),
-            new Point(1, 1))
-          expect(rectangle0.intersection(rectangle1).equal(expected)).toBe(true)
-        })
-
-        test('maximum contained', () => {
-          const rectangle0: Rectangle = new Rectangle(new Point(1, 1),
-            new Point(2, 2))
-          const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
-            new Point(1, 1))
-          const expected: Rectangle = new Rectangle(new Point(1, 1),
-            new Point(1, 1))
-          expect(rectangle0.intersection(rectangle1).equal(expected)).toBe(true)
-        })
-
-        test('no corners contained', () => {
-          const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-            new Point(1, 1))
-          const rectangle1: Rectangle = new Rectangle(new Point(-1, -1),
-            new Point(2, 2))
-          expect(rectangle0.intersection(rectangle1).equal(rectangle0))
-            .toBe(true)
-        })
-      })
-
-      test('within', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(2, 2))
-        const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle0.intersection(rectangle1).equal(rectangle1)).toBe(true)
-      })
-    })
-  })
-
-  describe('intersects()', () => {
-    describe('empty', () => {
-      test('self', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        expect(rectangle.intersects(rectangle)).toBe(true)
-      })
-
-      test('disjoint', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(0, 0))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(2, 2))
-        expect(rectangle0.intersects(rectangle1)).toBe(false)
-      })
-
-      test('boundary', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(1, 1))
-        expect(rectangle0.intersects(rectangle1)).toBe(true)
-      })
-
-      test('within', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(2, 2))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(1, 1))
+      test('intersects()', () => {
         expect(rectangle0.intersects(rectangle1)).toBe(true)
       })
     })
 
-    describe('nonempty', () => {
-      test('self', () => {
-        const rectangle: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        expect(rectangle.intersects(rectangle)).toBe(true)
+    describe('and a second overlapping Rectangle [0 0 3 3]', () => {
+      const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
+        new Point(3, 3))
+
+      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
+
+      test('containsRectangle()', () => {
+        expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
       })
 
-      test('disjoint', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(0, 0))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(2, 2))
-        expect(rectangle0.intersects(rectangle1)).toBe(false)
+      test('intersection()', () => {
+        const expected: Rectangle = new Rectangle(new Point(2, 1),
+          new Point(3, 3))
+        expect(rectangle0.intersection(rectangle1).equal(expected)).toBe(true)
       })
 
-      test('boundary', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
-        const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-          new Point(2, 2))
-        expect(rectangle0.intersects(rectangle1)).toBe(true)
-      })
-
-      describe('intersects', () => {
-        test('minimum contained', () => {
-          const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-            new Point(1, 1))
-          const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-            new Point(2, 2))
-          expect(rectangle0.intersects(rectangle1)).toBe(true)
-        })
-
-        test('maximum contained', () => {
-          const rectangle0: Rectangle = new Rectangle(new Point(1, 1),
-            new Point(2, 2))
-          const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
-            new Point(1, 1))
-          expect(rectangle0.intersects(rectangle1)).toBe(true)
-        })
-
-        test('no corners contained', () => {
-          const rectangle0: Rectangle = new Rectangle(new Point(0, 0),
-            new Point(1, 1))
-          const rectangle1: Rectangle = new Rectangle(new Point(-1, -1),
-            new Point(2, 2))
-          expect(rectangle0.intersects(rectangle1)).toBe(true)
-        })
-      })
-
-      test('within', () => {
-        const rectangle0: Rectangle = new Rectangle(new Point(-1, -1),
-          new Point(2, 2))
-        const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
-          new Point(1, 1))
+      test('intersects()', () => {
         expect(rectangle0.intersects(rectangle1)).toBe(true)
       })
     })
