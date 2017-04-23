@@ -16,6 +16,8 @@ describe('Rectangle', () => {
       expect(rectangle0.equal()).toBe(false)
     })
 
+    test('toString()', () => expect(rectangle0.toString()).toBe('[0 0 0 0]'))
+
     test('point0()', () => expect(rectangle0.point0().equal(point)).toBe(true))
 
     test('point1()', () => expect(rectangle0.point1().equal(point)).toBe(true))
@@ -97,6 +99,12 @@ describe('Rectangle', () => {
           })
 
           test('equal(undefined)', () => expect(rectangle0.equal()).toBe(false))
+
+          test('toString()', () => {
+            const expected: String =`[${point0.x()} ${point0.y()} `
+              + `${point1.x()} ${point1.y()}]`
+            expect(rectangle0.toString()).toBe(expected)
+          })
 
           test('point0()', () => {
             expect(rectangle0.point0().equal(point0)).toBe(true)
@@ -186,6 +194,8 @@ describe('Rectangle', () => {
     test('equal(self)', () => expect(rectangle0.equal(rectangle0)).toBe(true))
 
     test('equal(undefined)', () => expect(rectangle0.equal()).toBe(false))
+
+    test('toString()', () => expect(rectangle0.toString()).toBe('[2 1 6 4]'))
 
     test('point0()', () => expect(rectangle0.point0().equal(point0)).toBe(true))
 

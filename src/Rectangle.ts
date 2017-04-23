@@ -22,6 +22,12 @@ export default class Rectangle {
       && this.maximum().equal(rectangle.maximum())
   }
 
+  toString(): string {
+    const point0: string = `${this.point0().x()} ${this.point0().y()}`
+    const point1: string = `${this.point1().x()} ${this.point1().y()}`
+    return `[${point0} ${point1}]`
+  }
+
   /** @return {!Point} The first of two corner Points describing the
                        Rectangle as supplied to the constructor. */
   point0(): Point { return this._point0 }

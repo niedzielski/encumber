@@ -11,6 +11,8 @@ export default class Point {
     return !!rhs && this.x() === rhs.x() && this.y() === rhs.y()
   }
 
+  toString(): string { return `(${this.x()} ${this.y()})` }
+
   x(): number { return this._x }
 
   y(): number { return this._y }

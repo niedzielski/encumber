@@ -35,6 +35,18 @@ describe('Point', () => {
     })
   })
 
+  describe('toString()', () => {
+    test('zero', () => {
+      const point: Point = new Point(0, 0)
+      expect(point.toString()).toBe('(0 0)')
+    })
+
+    test('nonzero', () => {
+      const point: Point = new Point(1, 1)
+      expect(point.toString()).toBe('(1 1)')
+    })
+  })
+
   describe('x()', () => {
     test('zero', () => {
       const point: Point = new Point(0, 0)
