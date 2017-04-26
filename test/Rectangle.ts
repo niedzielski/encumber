@@ -4,6 +4,22 @@ import Point from '../src/Point'
 import Rectangle from '../src/Rectangle'
 
 describe('Rectangle', () => {
+  const testComplementSelf = (rectangle: Rectangle) => {
+    const complement: Rectangle[] = rectangle.complement(rectangle)
+    const minimum: Point = rectangle.minimum()
+    const maximum: Point = rectangle.maximum()
+    const expected = {
+      top: new Rectangle(new Point(minimum.x(), maximum.y()), maximum),
+      left: new Rectangle(minimum, new Point(minimum.x(), maximum.y())),
+      bottom: new Rectangle(minimum, new Point(maximum.x(), minimum.y())),
+      right: new Rectangle(new Point(maximum.x(), minimum.y()), maximum)
+    }
+    expect(complement[0].equal(expected.top)).toBe(true)
+    expect(complement[1].equal(expected.left)).toBe(true)
+    expect(complement[2].equal(expected.bottom)).toBe(true)
+    expect(complement[3].equal(expected.right)).toBe(true)
+  }
+
   describe('Given an empty Rectangle at the origin [0 0 0 0]', () => {
     const point: Point = new Point(0, 0)
     const rectangle0: Rectangle = new Rectangle(point, point)
@@ -64,6 +80,14 @@ describe('Rectangle', () => {
       expect(rectangle0.intersects(rectangle0)).toBe(true)
     })
 
+    test('complement(self)', () => {
+      const complements: Rectangle[] = rectangle0.complement(rectangle0)
+      expect(complements.length).toBe(4)
+      for (const complement of complements) {
+        expect(complement.equal(rectangle0)).toBe(true)
+      }
+    })
+
     describe('and a second disjoint Rectangle [1 1 2 2]', () => {
       const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
         new Point(2, 2))
@@ -80,6 +104,14 @@ describe('Rectangle', () => {
 
       test('intersects()', () => {
         expect(rectangle0.intersects(rectangle1)).toBe(false)
+      })
+
+      test('complement()', () => {
+        const complements: Rectangle[] = rectangle0.complement(rectangle1)
+        expect(complements.length).toBe(4)
+        for (const complement of complements) {
+          expect(complement.equal(rectangle0)).toBe(true)
+        }
       })
     })
   })
@@ -161,6 +193,8 @@ describe('Rectangle', () => {
             expect(rectangle0.intersects(rectangle0)).toBe(true)
           })
 
+          test('complement(self)', () => testComplementSelf(rectangle0))
+
           describe('and a second disjoint Rectangle [2 2 3 3]', () => {
             const rectangle1: Rectangle = new Rectangle(new Point(2, 2),
               new Point(3, 3))
@@ -182,6 +216,26 @@ describe('Rectangle', () => {
 
             test('intersects()', () => {
               expect(rectangle0.intersects(rectangle1)).toBe(false)
+            })
+
+            test('complement()', () => {
+              const results: Rectangle[] = rectangle0.complement(rectangle1)
+              const expected = {
+                top: new Rectangle(
+                  new Point(rectangle0.minimum().x(), rectangle0.maximum().y()),
+                  rectangle0.maximum()
+                ),
+                left: rectangle0,
+                bottom: rectangle0,
+                right: new Rectangle(
+                  new Point(rectangle0.maximum().x(), rectangle0.minimum().y()),
+                  rectangle0.maximum()
+                )
+              }
+              expect(results[0].equal(expected.top)).toBe(true)
+              expect(results[1].equal(expected.left)).toBe(true)
+              expect(results[2].equal(expected.bottom)).toBe(true)
+              expect(results[3].equal(expected.right)).toBe(true)
             })
           })
         })
@@ -248,6 +302,8 @@ describe('Rectangle', () => {
       expect(rectangle0.intersects(rectangle0)).toBe(true)
     })
 
+    test('complement(self)', () => testComplementSelf(rectangle0))
+
     describe('and a second superset Rectangle [1 0 7 5]', () => {
       const rectangle1: Rectangle = new Rectangle(new Point(1, 0),
         new Point(7, 5))
@@ -264,6 +320,20 @@ describe('Rectangle', () => {
 
       test('intersects()', () => {
         expect(rectangle0.intersects(rectangle1)).toBe(true)
+      })
+
+      test('complement()', () => {
+        const complement: Rectangle[] = rectangle0.complement(rectangle1)
+        const expected = {
+          top: new Rectangle(new Point(2, 4), new Point(6, 4)),
+          left: new Rectangle(new Point(2, 1), new Point(2, 4)),
+          bottom: new Rectangle(new Point(2, 1), new Point(6, 1)),
+          right: new Rectangle(new Point(6, 1), new Point(6, 4))
+        }
+        expect(complement[0].equal(expected.top)).toBe(true)
+        expect(complement[1].equal(expected.left)).toBe(true)
+        expect(complement[2].equal(expected.bottom)).toBe(true)
+        expect(complement[3].equal(expected.right)).toBe(true)
       })
     })
 
@@ -283,6 +353,20 @@ describe('Rectangle', () => {
 
       test('intersects()', () => {
         expect(rectangle0.intersects(rectangle1)).toBe(true)
+      })
+
+      test('complement()', () => {
+        const results: Rectangle[] = rectangle0.complement(rectangle1)
+        const expected = {
+          top: new Rectangle(new Point(2, 3), new Point(6, 4)),
+          left: new Rectangle(new Point(2, 1), new Point(3, 4)),
+          bottom: new Rectangle(new Point(2, 1), new Point(6, 2)),
+          right: new Rectangle(new Point(5, 1), new Point(6, 4))
+        }
+        expect(results[0].equal(expected.top)).toBe(true)
+        expect(results[1].equal(expected.left)).toBe(true)
+        expect(results[2].equal(expected.bottom)).toBe(true)
+        expect(results[3].equal(expected.right)).toBe(true)
       })
     })
 
@@ -305,6 +389,20 @@ describe('Rectangle', () => {
       test('intersects()', () => {
         expect(rectangle0.intersects(rectangle1)).toBe(true)
       })
+
+      test('complement()', () => {
+        const results: Rectangle[] = rectangle0.complement(rectangle1)
+        const expected = {
+          top: new Rectangle(new Point(2, 1), new Point(6, 4)),
+          left: new Rectangle(new Point(2, 1), new Point(2, 4)),
+          bottom: new Rectangle(new Point(2, 1), new Point(6, 1)),
+          right: new Rectangle(new Point(2, 1), new Point(6, 4))
+        }
+        expect(results[0].equal(expected.top)).toBe(true)
+        expect(results[1].equal(expected.left)).toBe(true)
+        expect(results[2].equal(expected.bottom)).toBe(true)
+        expect(results[3].equal(expected.right)).toBe(true)
+      })
     })
 
     describe('and a second overlapping Rectangle [0 0 3 3]', () => {
@@ -325,6 +423,20 @@ describe('Rectangle', () => {
 
       test('intersects()', () => {
         expect(rectangle0.intersects(rectangle1)).toBe(true)
+      })
+
+      test('complement()', () => {
+        const results: Rectangle[] = rectangle0.complement(rectangle1)
+        const expected = {
+          top: new Rectangle(new Point(2, 3), new Point(6, 4)),
+          left: new Rectangle(new Point(2, 1), new Point(2, 4)),
+          bottom: new Rectangle(new Point(2, 1), new Point(6, 1)),
+          right: new Rectangle(new Point(3, 1), new Point(6, 4))
+        }
+        expect(results[0].equal(expected.top)).toBe(true)
+        expect(results[1].equal(expected.left)).toBe(true)
+        expect(results[2].equal(expected.bottom)).toBe(true)
+        expect(results[3].equal(expected.right)).toBe(true)
       })
     })
   })

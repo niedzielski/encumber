@@ -115,6 +115,31 @@ export default class Rectangle {
       || this.containsPoint(point) && rectangle.containsPoint(point)
   }
 
+  /** @arg {!Rectangle} rectangle The Rectangle to remove.
+      @return {!Rectangle[]} The relative complement of rectangle in this
+                             Rectangle as represented by the four member,
+                             possibly overlapping or empty, union of
+                             Rectangles. */
+  complement(rectangle: Rectangle): Rectangle[] {
+    const intersection: Rectangle = this.intersection(rectangle)
+
+    const top: Rectangle = new Rectangle(
+      new Point(this.minimum().x(), intersection.maximum().y()), this.maximum()
+    )
+
+    const left: Rectangle = new Rectangle(this.minimum(),
+      new Point(intersection.minimum().x(), this.maximum().y()))
+
+    const bottom: Rectangle = new Rectangle(this.minimum(),
+      new Point(this.maximum().x(), intersection.minimum().y()))
+
+    const right: Rectangle = new Rectangle(
+      new Point(intersection.maximum().x(), this.minimum().y()), this.maximum()
+    )
+
+    return [top, left, bottom, right]
+  }
+
   // todo: translate
   // todo: scale
 
