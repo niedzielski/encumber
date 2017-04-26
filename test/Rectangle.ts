@@ -75,7 +75,7 @@ describe('Rectangle', () => {
       })
 
       test('intersection()', () => {
-        expect(rectangle0.intersection(rectangle1).empty()).toBe(true)
+        expect(rectangle0.intersection(rectangle1).equal(rectangle0)).toBe(true)
       })
 
       test('intersects()', () => {
@@ -174,7 +174,10 @@ describe('Rectangle', () => {
             })
 
             test('intersection()', () => {
-              expect(rectangle0.intersection(rectangle1).empty()).toBe(true)
+              const expected: Rectangle = new Rectangle(rectangle0.maximum(),
+                rectangle0.maximum())
+              expect(rectangle0.intersection(rectangle1).equal(expected))
+                .toBe(true)
             })
 
             test('intersects()', () => {

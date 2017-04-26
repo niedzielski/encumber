@@ -94,14 +94,15 @@ export default class Rectangle {
   // todo: union
 
   /** @arg {!Rectangle} rectangle
-      @return {!Rectangle} The overlap of this Rectangle and rectangle. */
+      @return {!Rectangle} The overlap of this Rectangle and rectangle, possibly
+                           empty. */
   intersection(rectangle: Rectangle): Rectangle {
-    const minimum = Rectangle._maximum(this.minimum(), rectangle.minimum())
-    const maximum = Rectangle._minimum(this.maximum(), rectangle.maximum())
+    const minimum: Point = Rectangle._minimum(this.maximum(),
+      Rectangle._maximum(this.minimum(), rectangle.minimum()))
+    const maximum: Point = Rectangle._maximum(this.minimum(),
+      Rectangle._minimum(this.maximum(), rectangle.maximum()))
 
-    return this.containsPoint(minimum) && this.containsPoint(maximum)
-      ? new Rectangle(minimum, maximum)
-      : new Rectangle(minimum, minimum)
+    return new Rectangle(minimum, maximum)
   }
 
   /** @arg {!Rectangle} rectangle
