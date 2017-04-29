@@ -4,8 +4,16 @@ import Point from '../src/Point'
 import Rectangle from '../src/Rectangle'
 
 describe('Rectangle', () => {
+  const assertComplement = (actual: Rectangle[], expected: any): void => {
+    expect(actual.length).toBe(4)
+    expect(actual[0].equal(expected.top)).toBe(true)
+    expect(actual[1].equal(expected.left)).toBe(true)
+    expect(actual[2].equal(expected.bottom)).toBe(true)
+    expect(actual[3].equal(expected.right)).toBe(true)
+  }
+
   const testComplementSelf = (rectangle: Rectangle) => {
-    const complement: Rectangle[] = rectangle.complement(rectangle)
+    const actual: Rectangle[] = rectangle.complement(rectangle)
     const minimum: Point = rectangle.minimum()
     const maximum: Point = rectangle.maximum()
     const expected = {
@@ -14,10 +22,7 @@ describe('Rectangle', () => {
       bottom: new Rectangle(minimum, new Point(maximum.x(), minimum.y())),
       right: new Rectangle(new Point(maximum.x(), minimum.y()), maximum)
     }
-    expect(complement[0].equal(expected.top)).toBe(true)
-    expect(complement[1].equal(expected.left)).toBe(true)
-    expect(complement[2].equal(expected.bottom)).toBe(true)
-    expect(complement[3].equal(expected.right)).toBe(true)
+    assertComplement(actual, expected)
   }
 
   describe('Given an empty Rectangle at the origin [0 0 0 0]', () => {
@@ -81,10 +86,10 @@ describe('Rectangle', () => {
     })
 
     test('complement(self)', () => {
-      const complements: Rectangle[] = rectangle0.complement(rectangle0)
-      expect(complements.length).toBe(4)
-      for (const complement of complements) {
-        expect(complement.equal(rectangle0)).toBe(true)
+      const actuals: Rectangle[] = rectangle0.complement(rectangle0)
+      expect(actuals.length).toBe(4)
+      for (const actual of actuals) {
+        expect(actual.equal(rectangle0)).toBe(true)
       }
     })
 
@@ -107,9 +112,9 @@ describe('Rectangle', () => {
       })
 
       test('complement()', () => {
-        const complements: Rectangle[] = rectangle0.complement(rectangle1)
-        expect(complements.length).toBe(4)
-        for (const complement of complements) {
+        const actuals: Rectangle[] = rectangle0.complement(rectangle1)
+        expect(actuals.length).toBe(4)
+        for (const complement of actuals) {
           expect(complement.equal(rectangle0)).toBe(true)
         }
       })
@@ -219,7 +224,7 @@ describe('Rectangle', () => {
             })
 
             test('complement()', () => {
-              const results: Rectangle[] = rectangle0.complement(rectangle1)
+              const actual: Rectangle[] = rectangle0.complement(rectangle1)
               const expected = {
                 top: new Rectangle(
                   new Point(rectangle0.minimum().x(), rectangle0.maximum().y()),
@@ -232,10 +237,7 @@ describe('Rectangle', () => {
                   rectangle0.maximum()
                 )
               }
-              expect(results[0].equal(expected.top)).toBe(true)
-              expect(results[1].equal(expected.left)).toBe(true)
-              expect(results[2].equal(expected.bottom)).toBe(true)
-              expect(results[3].equal(expected.right)).toBe(true)
+              assertComplement(actual, expected)
             })
           })
         })
@@ -323,17 +325,14 @@ describe('Rectangle', () => {
       })
 
       test('complement()', () => {
-        const complement: Rectangle[] = rectangle0.complement(rectangle1)
+        const actual: Rectangle[] = rectangle0.complement(rectangle1)
         const expected = {
           top: new Rectangle(new Point(2, 4), new Point(6, 4)),
           left: new Rectangle(new Point(2, 1), new Point(2, 4)),
           bottom: new Rectangle(new Point(2, 1), new Point(6, 1)),
           right: new Rectangle(new Point(6, 1), new Point(6, 4))
         }
-        expect(complement[0].equal(expected.top)).toBe(true)
-        expect(complement[1].equal(expected.left)).toBe(true)
-        expect(complement[2].equal(expected.bottom)).toBe(true)
-        expect(complement[3].equal(expected.right)).toBe(true)
+        assertComplement(actual, expected)
       })
     })
 
@@ -356,17 +355,14 @@ describe('Rectangle', () => {
       })
 
       test('complement()', () => {
-        const results: Rectangle[] = rectangle0.complement(rectangle1)
+        const actual: Rectangle[] = rectangle0.complement(rectangle1)
         const expected = {
           top: new Rectangle(new Point(2, 3), new Point(6, 4)),
           left: new Rectangle(new Point(2, 1), new Point(3, 4)),
           bottom: new Rectangle(new Point(2, 1), new Point(6, 2)),
           right: new Rectangle(new Point(5, 1), new Point(6, 4))
         }
-        expect(results[0].equal(expected.top)).toBe(true)
-        expect(results[1].equal(expected.left)).toBe(true)
-        expect(results[2].equal(expected.bottom)).toBe(true)
-        expect(results[3].equal(expected.right)).toBe(true)
+        assertComplement(actual, expected)
       })
     })
 
@@ -391,17 +387,14 @@ describe('Rectangle', () => {
       })
 
       test('complement()', () => {
-        const results: Rectangle[] = rectangle0.complement(rectangle1)
+        const actual: Rectangle[] = rectangle0.complement(rectangle1)
         const expected = {
           top: new Rectangle(new Point(2, 1), new Point(6, 4)),
           left: new Rectangle(new Point(2, 1), new Point(2, 4)),
           bottom: new Rectangle(new Point(2, 1), new Point(6, 1)),
           right: new Rectangle(new Point(2, 1), new Point(6, 4))
         }
-        expect(results[0].equal(expected.top)).toBe(true)
-        expect(results[1].equal(expected.left)).toBe(true)
-        expect(results[2].equal(expected.bottom)).toBe(true)
-        expect(results[3].equal(expected.right)).toBe(true)
+        assertComplement(actual, expected)
       })
     })
 
@@ -426,17 +419,14 @@ describe('Rectangle', () => {
       })
 
       test('complement()', () => {
-        const results: Rectangle[] = rectangle0.complement(rectangle1)
+        const actual: Rectangle[] = rectangle0.complement(rectangle1)
         const expected = {
           top: new Rectangle(new Point(2, 3), new Point(6, 4)),
           left: new Rectangle(new Point(2, 1), new Point(2, 4)),
           bottom: new Rectangle(new Point(2, 1), new Point(6, 1)),
           right: new Rectangle(new Point(3, 1), new Point(6, 4))
         }
-        expect(results[0].equal(expected.top)).toBe(true)
-        expect(results[1].equal(expected.left)).toBe(true)
-        expect(results[2].equal(expected.bottom)).toBe(true)
-        expect(results[3].equal(expected.right)).toBe(true)
+        assertComplement(actual, expected)
       })
     })
   })
