@@ -75,7 +75,11 @@ export default class Rectangle {
 
   /** @arg {!Point} point
       @return {!boolean} true if point is inclusively bound by this Rectangle,
-                         false if point is exclusively unenclosed. */
+                         false if point is exclusively unenclosed. The
+                         consequence of inclusiveness is that Rectangles contain
+                         themselves and Rectangles sharing a boundary are
+                         considered intersecting and may also be considered
+                         disjoint by the client. */
   containsPoint(point: Point): boolean {
     return point.x() >= this.minimum().x() && point.x() <= this.maximum().x()
       && point.y() >= this.minimum().y() && point.y() <= this.maximum().y()
