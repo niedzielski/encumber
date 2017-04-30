@@ -25,7 +25,7 @@ export default class Rectangle {
   toString(): string {
     const point0: string = `${this.point0().x()} ${this.point0().y()}`
     const point1: string = `${this.point1().x()} ${this.point1().y()}`
-    return `[${point0} ${point1}]`
+    return `|${point0} ${point1}|`
   }
 
   /** @return {!Point} The first of two corner Points describing the
@@ -117,9 +117,10 @@ export default class Rectangle {
 
   /** @arg {!Rectangle} rectangle The Rectangle to remove.
       @return {!Rectangle[]} The relative complement of rectangle in this
-                             Rectangle as represented by the four member,
-                             possibly overlapping or empty, union of
-                             Rectangles. */
+                             Rectangle as represented by a four member, possibly
+                             overlapping or empty, union of Rectangles. The
+                             result inclusively contains the maximally sized
+                             disjoint Rectangles possible. */
   complement(rectangle: Rectangle): Rectangle[] {
     const intersection: Rectangle = this.intersection(rectangle)
 

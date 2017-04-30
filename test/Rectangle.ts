@@ -25,7 +25,7 @@ describe('Rectangle', () => {
     assertComplement(actual, expected)
   }
 
-  describe('Given an empty Rectangle at the origin [0 0 0 0]', () => {
+  describe('Given an empty Rectangle at the origin |0 0 0 0|', () => {
     const point: Point = new Point(0, 0)
     const rectangle0: Rectangle = new Rectangle(point, point)
 
@@ -37,7 +37,7 @@ describe('Rectangle', () => {
       expect(rectangle0.equal()).toBe(false)
     })
 
-    test('toString()', () => expect(rectangle0.toString()).toBe('[0 0 0 0]'))
+    test('toString()', () => expect(rectangle0.toString()).toBe('|0 0 0 0|'))
 
     test('point0()', () => expect(rectangle0.point0().equal(point)).toBe(true))
 
@@ -93,7 +93,7 @@ describe('Rectangle', () => {
       }
     })
 
-    describe('and a second disjoint Rectangle [1 1 2 2]', () => {
+    describe('and a second disjoint Rectangle |1 1 2 2|', () => {
       const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
         new Point(2, 2))
 
@@ -138,8 +138,8 @@ describe('Rectangle', () => {
           test('equal(undefined)', () => expect(rectangle0.equal()).toBe(false))
 
           test('toString()', () => {
-            const expected: String =`[${point0.x()} ${point0.y()} `
-              + `${point1.x()} ${point1.y()}]`
+            const expected: String =`|${point0.x()} ${point0.y()} `
+              + `${point1.x()} ${point1.y()}|`
             expect(rectangle0.toString()).toBe(expected)
           })
 
@@ -200,7 +200,7 @@ describe('Rectangle', () => {
 
           test('complement(self)', () => testComplementSelf(rectangle0))
 
-          describe('and a second disjoint Rectangle [2 2 3 3]', () => {
+          describe('and a second disjoint Rectangle |2 2 3 3|', () => {
             const rectangle1: Rectangle = new Rectangle(new Point(2, 2),
               new Point(3, 3))
 
@@ -245,7 +245,7 @@ describe('Rectangle', () => {
     }
   }
 
-  describe('Given an oblong Rectangle [2 1 6 4]', () => {
+  describe('Given an oblong Rectangle |2 1 6 4|', () => {
     const point0: Point = new Point(2, 1)
     const point1: Point = new Point(6, 4)
     const rectangle0: Rectangle = new Rectangle(point0, point1)
@@ -254,7 +254,7 @@ describe('Rectangle', () => {
 
     test('equal(undefined)', () => expect(rectangle0.equal()).toBe(false))
 
-    test('toString()', () => expect(rectangle0.toString()).toBe('[2 1 6 4]'))
+    test('toString()', () => expect(rectangle0.toString()).toBe('|2 1 6 4|'))
 
     test('point0()', () => expect(rectangle0.point0().equal(point0)).toBe(true))
 
@@ -306,7 +306,7 @@ describe('Rectangle', () => {
 
     test('complement(self)', () => testComplementSelf(rectangle0))
 
-    describe('and a second superset Rectangle [1 0 7 5]', () => {
+    describe('and a second superset Rectangle |1 0 7 5|', () => {
       const rectangle1: Rectangle = new Rectangle(new Point(1, 0),
         new Point(7, 5))
 
@@ -336,7 +336,7 @@ describe('Rectangle', () => {
       })
     })
 
-    describe('and a second subset Rectangle [3 2 5 3]', () => {
+    describe('and a second subset Rectangle |3 2 5 3|', () => {
       const rectangle1: Rectangle = new Rectangle(new Point(3, 2),
         new Point(5, 3))
 
@@ -366,7 +366,7 @@ describe('Rectangle', () => {
       })
     })
 
-    describe('and a second bordering Rectangle [0 0 2 1]', () => {
+    describe('and a second bordering Rectangle |0 0 2 1|', () => {
       const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
         new Point(2, 1))
 
@@ -398,7 +398,7 @@ describe('Rectangle', () => {
       })
     })
 
-    describe('and a second overlapping Rectangle [0 0 3 3]', () => {
+    describe('and a second overlapping Rectangle |0 0 3 3|', () => {
       const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
         new Point(3, 3))
 
