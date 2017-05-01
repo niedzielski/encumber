@@ -1,4 +1,6 @@
+// https://www.typescriptlang.org/docs/handbook/compiler-options.html
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "allowJs": true,
     "allowUnreachableCode": false,
@@ -21,6 +23,7 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es5",
-    "lib": ["es6"]
+    "lib": ["dom", "es6", "dom.iterable", "scripthost"],
+    "watch": true
   }
 }
