@@ -1,5 +1,4 @@
 // eslint-disable-line max-lines
-
 import Point from '../src/Point'
 import Rectangle from '../src/Rectangle'
 
