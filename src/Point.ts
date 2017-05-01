@@ -7,13 +7,13 @@ export default class Point {
     this._y = y
   }
 
-  equal(point?: Point): boolean {
-    return !!point && this.x() === point.x() && this.y() === point.y()
-  }
-
-  toString(): string { return `(${this.x()} ${this.y()})` }
-
   x(): number { return this._x }
 
   y(): number { return this._y }
+
+  equal(rhs?: Point): boolean {
+    return !!rhs && this.x() === rhs.x() && this.y() === rhs.y()
+  }
+
+  toString(): string { return `(${this.x()} ${this.y()})` }
 }
