@@ -1,58 +1,51 @@
 import Point from './Point'
 
 export default class Rectangle {
-  private readonly _point0: Point
-  private readonly _point1: Point
-
-  /** @arg {!Point} point0 The first of two corner Points describing the
-                           Rectangle.
-      @arg {!Point} point1 The second of two corner Points describing the
-                           Rectangle. */
-  constructor(point0: Point, point1: Point) {
-    this._point0 = point0
-    this._point1 = point1
+  public static entryContains(array: Rectangle[],
+    rectangle: Rectangle): boolean {
+    return array.some((entry: Rectangle): boolean =>
+      entry.containsRectangle(rectangle))
   }
 
-  /** @arg {?Rectangle} rectangle
-      @return {!boolean} true if both Rectangles can be described by the same
-                         corner Points, false otherwise. */
-  equal(rectangle?: Rectangle): boolean {
-    return !!rectangle
-      && this.minimum().equal(rectangle.minimum())
-      && this.maximum().equal(rectangle.maximum())
+  public static filterNonemptySuperset(array: Rectangle[]): Rectangle[] {
+    // eslint-disable-next-line max-len
+    return array.reduce((result: Rectangle[], entry: Rectangle): Rectangle[] => {
+      if (!entry.empty() && !Rectangle.entryContains(result, entry)) {
+        result.push(entry)
+      }
+      return result
+    }, [])
   }
 
-  toString(): string {
-    const point0: string = `${this.point0().x()} ${this.point0().y()}`
-    const point1: string = `${this.point1().x()} ${this.point1().y()}`
-    return `|${point0} ${point1}|`
+  private readonly _minimum: Point
+  private readonly _maximum: Point
+
+  /** @arg {!Point} minimum The first of two corner Points describing the
+                            Rectangle.
+      @arg {!Point} maximum The second of two corner Points describing the
+                            Rectangle. */
+  constructor(minimum: Point, maximum: Point) {
+    this._minimum = Rectangle._minimum(minimum, maximum)
+    this._maximum = Rectangle._maximum(minimum, maximum)
   }
-
-  /** @return {!Point} The first of two corner Points describing the
-                       Rectangle as supplied to the constructor. */
-  point0(): Point { return this._point0 }
-
-  /** @return {!Point} The second of two corner Points describing the
-                       Rectangle as supplied to the constructor. */
-  point1(): Point { return this._point1 }
 
   /** @return {!Point} The Point describing the corner with the minimum x and
                        y-coordinate. */
-  minimum(): Point { return Rectangle._minimum(this.point0(), this.point1()) }
+  minimum(): Point { return this._minimum }
 
   /** @return {!Point} The Point describing the corner with the maximum x and
                        y-coordinate. */
-  maximum(): Point { return Rectangle._maximum(this.point0(), this.point1()) }
+  maximum(): Point { return this._maximum }
 
   // todo: center
 
   /** @return {!number} The number of units between the minimum and maximum
                         x-coordinates of the Rectangle. */
-  width(): number { return Math.abs(this.point0().x() - this.point1().x()) }
+  width(): number { return Math.abs(this.minimum().x() - this.maximum().x()) }
 
   /** @return {!number} The number of units between the minimum and maximum
                         y-coordinates of the Rectangle. */
-  height(): number { return Math.abs(this.point0().y() - this.point1().y()) }
+  height(): number { return Math.abs(this.minimum().y() - this.maximum().y()) }
 
   /** @return {!number} The magnitude between opposite points of the
                         Rectangle. */
@@ -91,15 +84,13 @@ export default class Rectangle {
                          false if rectangle is partially or completely
                          external. */
   containsRectangle(rectangle: Rectangle): boolean {
-    return this.containsPoint(rectangle.point0())
-      && this.containsPoint(rectangle.point1())
+    return this.containsPoint(rectangle.minimum())
+      && this.containsPoint(rectangle.maximum())
   }
-
-  // todo: union
 
   /** @arg {!Rectangle} rectangle
       @return {!Rectangle} The overlap of this Rectangle and rectangle, possibly
-                           empty. */
+                           empty, bounded by this Rectangle. */
   intersection(rectangle: Rectangle): Rectangle {
     const minimum: Point = Rectangle._minimum(this.maximum(),
       Rectangle._maximum(this.minimum(), rectangle.minimum()))
@@ -114,17 +105,16 @@ export default class Rectangle {
                          Rectangles are disjoint. */
   intersects(rectangle: Rectangle): boolean {
     const intersection: Rectangle = this.intersection(rectangle)
-    const point: Point = intersection.point0()
+    const point: Point = intersection.minimum()
     return !!intersection.area()
       || this.containsPoint(point) && rectangle.containsPoint(point)
   }
 
   /** @arg {!Rectangle} rectangle The Rectangle to remove.
       @return {!Rectangle[]} The relative complement of rectangle in this
-                             Rectangle as represented by a four member, possibly
-                             overlapping or empty, union of Rectangles. The
-                             result inclusively contains the maximally sized
-                             disjoint Rectangles possible. */
+                             Rectangle as represented by a union of 0-4
+                             nonempty, maximally sized, possibly overlapping
+                             Rectangles. */
   complement(rectangle: Rectangle): Rectangle[] {
     const intersection: Rectangle = this.intersection(rectangle)
 
@@ -142,7 +132,22 @@ export default class Rectangle {
       new Point(intersection.maximum().x(), this.minimum().y()), this.maximum()
     )
 
-    return [top, left, bottom, right]
+    return Rectangle.filterNonemptySuperset([top, left, bottom, right])
+  }
+
+  /** @arg {?Rectangle} rectangle
+      @return {!boolean} true if both Rectangles can be described by the same
+                         corner Points, false otherwise. */
+  equal(rhs?: Rectangle): boolean {
+    return !!rhs
+      && this.minimum().equal(rhs.minimum())
+      && this.maximum().equal(rhs.maximum())
+  }
+
+  toString(): string {
+    const point0: string = `${this.minimum().x()} ${this.minimum().y()}`
+    const point1: string = `${this.maximum().x()} ${this.maximum().y()}`
+    return `|${point0} ${point1}|`
   }
 
   // todo: translate

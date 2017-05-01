@@ -4,120 +4,88 @@ import Point from '../src/Point'
 import Rectangle from '../src/Rectangle'
 
 describe('Rectangle', () => {
-  const assertComplement = (actual: Rectangle[], expected: any): void => {
-    expect(actual.length).toBe(4)
-    expect(actual[0].equal(expected.top)).toBe(true)
-    expect(actual[1].equal(expected.left)).toBe(true)
-    expect(actual[2].equal(expected.bottom)).toBe(true)
-    expect(actual[3].equal(expected.right)).toBe(true)
-  }
-
-  const testComplementSelf = (rectangle: Rectangle) => {
-    const actual: Rectangle[] = rectangle.complement(rectangle)
-    const minimum: Point = rectangle.minimum()
-    const maximum: Point = rectangle.maximum()
-    const expected = {
-      top: new Rectangle(new Point(minimum.x(), maximum.y()), maximum),
-      left: new Rectangle(minimum, new Point(minimum.x(), maximum.y())),
-      bottom: new Rectangle(minimum, new Point(maximum.x(), minimum.y())),
-      right: new Rectangle(new Point(maximum.x(), minimum.y()), maximum)
-    }
-    assertComplement(actual, expected)
-  }
-
   describe('Given an empty Rectangle at the origin |0 0 0 0|', () => {
     const point: Point = new Point(0, 0)
-    const rectangle0: Rectangle = new Rectangle(point, point)
-
-    test('equal(self)', () => {
-      expect(rectangle0.equal(rectangle0)).toBe(true)
-    })
-
-    test('equal(undefined)', () => {
-      expect(rectangle0.equal()).toBe(false)
-    })
-
-    test('toString()', () => expect(rectangle0.toString()).toBe('|0 0 0 0|'))
-
-    test('point0()', () => expect(rectangle0.point0().equal(point)).toBe(true))
-
-    test('point1()', () => expect(rectangle0.point1().equal(point)).toBe(true))
+    const subject: Rectangle = new Rectangle(point, point)
 
     test('minimum()', () => {
-      expect(rectangle0.minimum().equal(point)).toBe(true)
+      expect(subject.minimum().equal(point)).toBe(true)
     })
 
     test('maximum()', () => {
-      expect(rectangle0.maximum().equal(point)).toBe(true)
+      expect(subject.maximum().equal(point)).toBe(true)
     })
 
-    test('width()', () => expect(rectangle0.width()).toBe(0))
+    test('width()', () => expect(subject.width()).toBe(0))
 
-    test('height()', () => expect(rectangle0.height()).toBe(0))
+    test('height()', () => expect(subject.height()).toBe(0))
 
-    test('diagonal()', () => expect(rectangle0.diagonal()).toBe(0))
+    test('diagonal()', () => expect(subject.diagonal()).toBe(0))
 
-    test('perimeter()', () => expect(rectangle0.perimeter()).toBe(0))
+    test('perimeter()', () => expect(subject.perimeter()).toBe(0))
 
-    test('area()', () => expect(rectangle0.area()).toBe(0))
+    test('area()', () => expect(subject.area()).toBe(0))
 
-    test('empty()', () => expect(rectangle0.empty()).toBe(true))
+    test('empty()', () => expect(subject.empty()).toBe(true))
 
-    test('square()', () => expect(rectangle0.square()).toBe(true))
+    test('square()', () => expect(subject.square()).toBe(true))
 
     test('containsPoint(disjoint)', () => {
-      expect(rectangle0.containsPoint(new Point(1, 1))).toBe(false)
+      expect(subject.containsPoint(new Point(1, 1))).toBe(false)
     })
 
     test('containsPoint(boundary)', () => {
-      expect(rectangle0.containsPoint(point)).toBe(true)
+      expect(subject.containsPoint(point)).toBe(true)
     })
 
     test('containsRectangle(self)', () => {
-      expect(rectangle0.containsRectangle(rectangle0)).toBe(true)
+      expect(subject.containsRectangle(subject)).toBe(true)
     })
 
     test('intersection(self)', () => {
-      expect(rectangle0.intersection(rectangle0).equal(rectangle0)).toBe(true)
+      expect(subject.intersection(subject).equal(subject)).toBe(true)
     })
 
     test('intersects(self)', () => {
-      expect(rectangle0.intersects(rectangle0)).toBe(true)
+      expect(subject.intersects(subject)).toBe(true)
     })
 
     test('complement(self)', () => {
-      const actuals: Rectangle[] = rectangle0.complement(rectangle0)
-      expect(actuals.length).toBe(4)
-      for (const actual of actuals) {
-        expect(actual.equal(rectangle0)).toBe(true)
-      }
+      const actual: Rectangle[] = subject.complement(subject)
+      expect(actual.length).toBe(0)
     })
 
-    describe('and a second disjoint Rectangle |1 1 2 2|', () => {
-      const rectangle1: Rectangle = new Rectangle(new Point(1, 1),
-        new Point(2, 2))
+    test('equal(self)', () => {
+      expect(subject.equal(subject)).toBe(true)
+    })
 
-      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
+    test('equal(undefined)', () => {
+      expect(subject.equal()).toBe(false)
+    })
+
+    test('toString()', () => expect(subject.toString()).toBe('|0 0 0 0|'))
+
+    describe('and a second disjoint Rectangle |1 1 2 2|', () => {
+      const input: Rectangle = new Rectangle(new Point(1, 1), new Point(2, 2))
 
       test('containsRectangle()', () => {
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
+        expect(subject.containsRectangle(input)).toBe(false)
       })
 
       test('intersection()', () => {
-        expect(rectangle0.intersection(rectangle1).equal(rectangle0)).toBe(true)
+        expect(subject.intersection(input).equal(subject)).toBe(true)
       })
 
       test('intersects()', () => {
-        expect(rectangle0.intersects(rectangle1)).toBe(false)
+        expect(subject.intersects(input)).toBe(false)
       })
 
       test('complement()', () => {
-        const actuals: Rectangle[] = rectangle0.complement(rectangle1)
-        expect(actuals.length).toBe(4)
-        for (const complement of actuals) {
-          expect(complement.equal(rectangle0)).toBe(true)
-        }
+        const actual: Rectangle[] = subject.complement(input)
+        expect(actual.length).toBe(0)
       })
+
+      test('equal()', () => expect(subject.equal(input)).toBe(false))
     })
   })
 
@@ -126,118 +94,97 @@ describe('Rectangle', () => {
       for (const y of [0, 1]) {
         const point0: Point = new Point(sign * x, sign * y)
         const point1: Point = new Point(sign * (1 - x), sign * (1 - y))
-        const rectangle0: Rectangle = new Rectangle(point0, point1)
+        const subject: Rectangle = new Rectangle(point0, point1)
         const description: string = 'Given a unit Rectangle at the origin with'
-          + ` ${rectangle0} order`
+          + ` ${subject} order`
 
         describe(description, () => {
           test('equal(self)', () => {
-            expect(rectangle0.equal(rectangle0)).toBe(true)
-          })
-
-          test('equal(undefined)', () => expect(rectangle0.equal()).toBe(false))
-
-          test('toString()', () => {
-            const expected: String =`|${point0.x()} ${point0.y()} `
-              + `${point1.x()} ${point1.y()}|`
-            expect(rectangle0.toString()).toBe(expected)
-          })
-
-          test('point0()', () => {
-            expect(rectangle0.point0().equal(point0)).toBe(true)
-          })
-
-          test('point1()', () => {
-            expect(rectangle0.point1().equal(point1)).toBe(true)
+            expect(subject.equal(subject)).toBe(true)
           })
 
           test('minimum()', () => {
             const point: Point = new Point(Math.min(0, sign), Math.min(0, sign))
-            expect(rectangle0.minimum().equal(point)).toBe(true)
+            expect(subject.minimum().equal(point)).toBe(true)
           })
 
           test('maximum()', () => {
             const point: Point = new Point(Math.max(0, sign), Math.max(0, sign))
-            expect(rectangle0.maximum().equal(point)).toBe(true)
+            expect(subject.maximum().equal(point)).toBe(true)
           })
 
-          test('width()', () => expect(rectangle0.width()).toBe(1))
+          test('width()', () => expect(subject.width()).toBe(1))
 
-          test('height()', () => expect(rectangle0.height()).toBe(1))
+          test('height()', () => expect(subject.height()).toBe(1))
 
           test('diagonal()', () => {
-            expect(rectangle0.diagonal()).toBe(Math.sqrt(2))
+            expect(subject.diagonal()).toBe(Math.sqrt(2))
           })
 
-          test('perimeter()', () => expect(rectangle0.perimeter()).toBe(4))
+          test('perimeter()', () => expect(subject.perimeter()).toBe(4))
 
-          test('area()', () => expect(rectangle0.area()).toBe(1))
+          test('area()', () => expect(subject.area()).toBe(1))
 
-          test('empty()', () => expect(rectangle0.empty()).toBe(false))
+          test('empty()', () => expect(subject.empty()).toBe(false))
 
-          test('square()', () => expect(rectangle0.square()).toBe(true))
+          test('square()', () => expect(subject.square()).toBe(true))
 
           test('containsPoint(disjoint)', () => {
-            expect(rectangle0.containsPoint(new Point(2, 2))).toBe(false)
+            expect(subject.containsPoint(new Point(2, 2))).toBe(false)
           })
 
           test('containsPoint(boundary)', () => {
-            expect(rectangle0.containsPoint(point0)).toBe(true)
+            expect(subject.containsPoint(point0)).toBe(true)
           })
 
           test('containsRectangle(self)', () => {
-            expect(rectangle0.containsRectangle(rectangle0)).toBe(true)
+            expect(subject.containsRectangle(subject)).toBe(true)
           })
 
           test('intersection(self)', () => {
-            expect(rectangle0.intersection(rectangle0).equal(rectangle0))
+            expect(subject.intersection(subject).equal(subject))
               .toBe(true)
           })
 
           test('intersects(self)', () => {
-            expect(rectangle0.intersects(rectangle0)).toBe(true)
+            expect(subject.intersects(subject)).toBe(true)
           })
 
-          test('complement(self)', () => testComplementSelf(rectangle0))
+          test('complement(self)', () => {
+            const actual: Rectangle[] = subject.complement(subject)
+            expect(actual.length).toBe(0)
+          })
+
+          test('equal(undefined)', () => expect(subject.equal()).toBe(false))
 
           describe('and a second disjoint Rectangle |2 2 3 3|', () => {
-            const rectangle1: Rectangle = new Rectangle(new Point(2, 2),
+            const input: Rectangle = new Rectangle(new Point(2, 2),
               new Point(3, 3))
 
-            test('equal()', () => {
-              expect(rectangle0.equal(rectangle1)).toBe(false)
-            })
-
             test('containsRectangle()', () => {
-              expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
+              expect(subject.containsRectangle(input)).toBe(false)
             })
 
             test('intersection()', () => {
-              const expected: Rectangle = new Rectangle(rectangle0.maximum(),
-                rectangle0.maximum())
-              expect(rectangle0.intersection(rectangle1).equal(expected))
+              const expected: Rectangle = new Rectangle(subject.maximum(),
+                subject.maximum())
+              expect(subject.intersection(input).equal(expected))
                 .toBe(true)
             })
 
             test('intersects()', () => {
-              expect(rectangle0.intersects(rectangle1)).toBe(false)
+              expect(subject.intersects(input)).toBe(false)
             })
 
             test('complement()', () => {
-              const actual: Rectangle[] = rectangle0.complement(rectangle1)
-              const expected = {
-                top: new Rectangle(
-                  new Point(rectangle0.minimum().x(), rectangle0.maximum().y()),
-                  rectangle0.maximum()
-                ),
-                left: rectangle0,
-                bottom: rectangle0,
-                right: new Rectangle(
-                  new Point(rectangle0.maximum().x(), rectangle0.minimum().y()),
-                  rectangle0.maximum()
-                )
-              }
-              assertComplement(actual, expected)
+              const actual: Rectangle[] = subject.complement(input)
+              const expected: Rectangle[] = [subject]
+              expect(actual.length).toBe(1)
+              expect(actual[0].equal(expected[0])).toBe(true)
+            })
+
+            test('equal()', () => {
+              expect(subject.equal(input)).toBe(false)
             })
           })
         })
@@ -246,188 +193,177 @@ describe('Rectangle', () => {
   }
 
   describe('Given an oblong Rectangle |2 1 6 4|', () => {
-    const point0: Point = new Point(2, 1)
-    const point1: Point = new Point(6, 4)
-    const rectangle0: Rectangle = new Rectangle(point0, point1)
-
-    test('equal(self)', () => expect(rectangle0.equal(rectangle0)).toBe(true))
-
-    test('equal(undefined)', () => expect(rectangle0.equal()).toBe(false))
-
-    test('toString()', () => expect(rectangle0.toString()).toBe('|2 1 6 4|'))
-
-    test('point0()', () => expect(rectangle0.point0().equal(point0)).toBe(true))
-
-    test('point1()', () => {
-      expect(rectangle0.point1().equal(point1)).toBe(true)
-    })
+    const minimum: Point = new Point(2, 1)
+    const maximum: Point = new Point(6, 4)
+    const subject: Rectangle = new Rectangle(minimum, maximum)
 
     test('minimum()', () => {
-      expect(rectangle0.minimum().equal(point0)).toBe(true)
+      expect(subject.minimum().equal(minimum)).toBe(true)
     })
 
     test('maximum()', () => {
-      expect(rectangle0.maximum().equal(point1)).toBe(true)
+      expect(subject.maximum().equal(maximum)).toBe(true)
     })
 
-    test('width()', () => expect(rectangle0.width()).toBe(4))
+    test('width()', () => expect(subject.width()).toBe(4))
 
-    test('height()', () => expect(rectangle0.height()).toBe(3))
+    test('height()', () => expect(subject.height()).toBe(3))
 
-    test('diagonal()', () => expect(rectangle0.diagonal()).toBe(5))
+    test('diagonal()', () => expect(subject.diagonal()).toBe(5))
 
-    test('perimeter()', () => expect(rectangle0.perimeter()).toBe(14))
+    test('perimeter()', () => expect(subject.perimeter()).toBe(14))
 
-    test('area()', () => expect(rectangle0.area()).toBe(12))
+    test('area()', () => expect(subject.area()).toBe(12))
 
-    test('empty()', () => expect(rectangle0.empty()).toBe(false))
+    test('empty()', () => expect(subject.empty()).toBe(false))
 
-    test('square()', () => expect(rectangle0.square()).toBe(false))
+    test('square()', () => expect(subject.square()).toBe(false))
 
     test('containsPoint(disjoint)', () => {
-      expect(rectangle0.containsPoint(new Point(1, 1))).toBe(false)
+      expect(subject.containsPoint(new Point(1, 1))).toBe(false)
     })
 
     test('containsPoint(boundary)', () => {
-      expect(rectangle0.containsPoint(point0)).toBe(true)
+      expect(subject.containsPoint(minimum)).toBe(true)
     })
 
     test('containsRectangle(self)', () => {
-      expect(rectangle0.containsRectangle(rectangle0)).toBe(true)
+      expect(subject.containsRectangle(subject)).toBe(true)
     })
 
     test('intersection(self)', () => {
-      expect(rectangle0.intersection(rectangle0).equal(rectangle0)).toBe(true)
+      expect(subject.intersection(subject).equal(subject)).toBe(true)
     })
 
     test('intersects(self)', () => {
-      expect(rectangle0.intersects(rectangle0)).toBe(true)
+      expect(subject.intersects(subject)).toBe(true)
     })
 
-    test('complement(self)', () => testComplementSelf(rectangle0))
+    test('complement(self)', () => {
+      const actual: Rectangle[] = subject.complement(subject)
+      expect(actual.length).toBe(0)
+    })
+
+    test('equal(self)', () => expect(subject.equal(subject)).toBe(true))
+
+    test('equal(undefined)', () => expect(subject.equal()).toBe(false))
+
+    test('toString()', () => expect(subject.toString()).toBe('|2 1 6 4|'))
 
     describe('and a second superset Rectangle |1 0 7 5|', () => {
-      const rectangle1: Rectangle = new Rectangle(new Point(1, 0),
-        new Point(7, 5))
-
-      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
+      const input: Rectangle = new Rectangle(new Point(1, 0), new Point(7, 5))
 
       test('containsRectangle()', () => {
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
+        expect(subject.containsRectangle(input)).toBe(false)
       })
 
       test('intersection()', () => {
-        expect(rectangle0.intersection(rectangle1).equal(rectangle0)).toBe(true)
+        expect(subject.intersection(input).equal(subject)).toBe(true)
       })
 
       test('intersects()', () => {
-        expect(rectangle0.intersects(rectangle1)).toBe(true)
+        expect(subject.intersects(input)).toBe(true)
       })
 
       test('complement()', () => {
-        const actual: Rectangle[] = rectangle0.complement(rectangle1)
-        const expected = {
-          top: new Rectangle(new Point(2, 4), new Point(6, 4)),
-          left: new Rectangle(new Point(2, 1), new Point(2, 4)),
-          bottom: new Rectangle(new Point(2, 1), new Point(6, 1)),
-          right: new Rectangle(new Point(6, 1), new Point(6, 4))
-        }
-        assertComplement(actual, expected)
+        const actual: Rectangle[] = subject.complement(input)
+        expect(actual.length).toBe(0)
       })
+
+      test('equal()', () => expect(subject.equal(input)).toBe(false))
     })
 
     describe('and a second subset Rectangle |3 2 5 3|', () => {
-      const rectangle1: Rectangle = new Rectangle(new Point(3, 2),
-        new Point(5, 3))
-
-      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
+      const input: Rectangle = new Rectangle(new Point(3, 2), new Point(5, 3))
 
       test('containsRectangle()', () => {
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(true)
+        expect(subject.containsRectangle(input)).toBe(true)
       })
 
       test('intersection()', () => {
-        expect(rectangle0.intersection(rectangle1).equal(rectangle1)).toBe(true)
+        expect(subject.intersection(input).equal(input)).toBe(true)
       })
 
       test('intersects()', () => {
-        expect(rectangle0.intersects(rectangle1)).toBe(true)
+        expect(subject.intersects(input)).toBe(true)
       })
 
       test('complement()', () => {
-        const actual: Rectangle[] = rectangle0.complement(rectangle1)
-        const expected = {
-          top: new Rectangle(new Point(2, 3), new Point(6, 4)),
-          left: new Rectangle(new Point(2, 1), new Point(3, 4)),
-          bottom: new Rectangle(new Point(2, 1), new Point(6, 2)),
-          right: new Rectangle(new Point(5, 1), new Point(6, 4))
-        }
-        assertComplement(actual, expected)
+        const actual: Rectangle[] = subject.complement(input)
+        const expected: Rectangle[] = [
+          new Rectangle(new Point(2, 3), new Point(6, 4)),
+          new Rectangle(new Point(2, 1), new Point(3, 4)),
+          new Rectangle(new Point(2, 1), new Point(6, 2)),
+          new Rectangle(new Point(5, 1), new Point(6, 4))
+        ]
+        expect(actual.length).toBe(4)
+        expect(actual[0].equal(expected[0])).toBe(true)
+        expect(actual[1].equal(expected[1])).toBe(true)
+        expect(actual[2].equal(expected[2])).toBe(true)
+        expect(actual[3].equal(expected[3])).toBe(true)
       })
+
+      test('equal()', () => expect(subject.equal(input)).toBe(false))
     })
 
     describe('and a second bordering Rectangle |0 0 2 1|', () => {
-      const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(2, 1))
-
-      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
+      const input: Rectangle = new Rectangle(new Point(0, 0), new Point(2, 1))
 
       test('containsRectangle()', () => {
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
+        expect(subject.containsRectangle(input)).toBe(false)
       })
 
       test('intersection()', () => {
         const expected: Rectangle = new Rectangle(new Point(2, 1),
           new Point(2, 1))
-        expect(rectangle0.intersection(rectangle1).equal(expected)).toBe(true)
+        expect(subject.intersection(input).equal(expected)).toBe(true)
       })
 
       test('intersects()', () => {
-        expect(rectangle0.intersects(rectangle1)).toBe(true)
+        expect(subject.intersects(input)).toBe(true)
       })
 
       test('complement()', () => {
-        const actual: Rectangle[] = rectangle0.complement(rectangle1)
-        const expected = {
-          top: new Rectangle(new Point(2, 1), new Point(6, 4)),
-          left: new Rectangle(new Point(2, 1), new Point(2, 4)),
-          bottom: new Rectangle(new Point(2, 1), new Point(6, 1)),
-          right: new Rectangle(new Point(2, 1), new Point(6, 4))
-        }
-        assertComplement(actual, expected)
+        const actual: Rectangle[] = subject.complement(input)
+        const expected: Rectangle[] = [
+          new Rectangle(new Point(2, 1), new Point(6, 4))
+        ]
+        expect(actual.length).toBe(1)
+        expect(actual[0].equal(expected[0])).toBe(true)
       })
+
+      test('equal()', () => expect(subject.equal(input)).toBe(false))
     })
 
     describe('and a second overlapping Rectangle |0 0 3 3|', () => {
-      const rectangle1: Rectangle = new Rectangle(new Point(0, 0),
-        new Point(3, 3))
-
-      test('equal()', () => expect(rectangle0.equal(rectangle1)).toBe(false))
+      const input: Rectangle = new Rectangle(new Point(0, 0), new Point(3, 3))
 
       test('containsRectangle()', () => {
-        expect(rectangle0.containsRectangle(rectangle1)).toBe(false)
+        expect(subject.containsRectangle(input)).toBe(false)
       })
 
       test('intersection()', () => {
         const expected: Rectangle = new Rectangle(new Point(2, 1),
           new Point(3, 3))
-        expect(rectangle0.intersection(rectangle1).equal(expected)).toBe(true)
+        expect(subject.intersection(input).equal(expected)).toBe(true)
       })
 
       test('intersects()', () => {
-        expect(rectangle0.intersects(rectangle1)).toBe(true)
+        expect(subject.intersects(input)).toBe(true)
       })
 
       test('complement()', () => {
-        const actual: Rectangle[] = rectangle0.complement(rectangle1)
-        const expected = {
-          top: new Rectangle(new Point(2, 3), new Point(6, 4)),
-          left: new Rectangle(new Point(2, 1), new Point(2, 4)),
-          bottom: new Rectangle(new Point(2, 1), new Point(6, 1)),
-          right: new Rectangle(new Point(3, 1), new Point(6, 4))
-        }
-        assertComplement(actual, expected)
+        const actual: Rectangle[] = subject.complement(input)
+        const expected: Rectangle[] = [
+          new Rectangle(new Point(2, 3), new Point(6, 4)),
+          new Rectangle(new Point(3, 1), new Point(6, 4))
+        ]
+        expect(actual.length).toBe(2)
+        expect(actual[0].equal(expected[0])).toBe(true)
+        expect(actual[1].equal(expected[1])).toBe(true)
       })
+
+      test('equal()', () => expect(subject.equal(input)).toBe(false))
     })
   })
 })
