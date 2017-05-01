@@ -2,8 +2,8 @@ extends: rndmem
 parser: typescript-eslint-parser
 rules:
   capitalized-comments: [1, 'always',
-    ignorePattern: 'todo|null|undefined|true|false|boolean|number|string']
-  no-implicit-coercion: 0
+    ignorePattern: 'todo|null|undefined|true|false|boolean|number|string|  ']
+  no-implicit-coercion: [1, {allow: ['!!']}]
 
   # TypeScript
   no-undef: 0
