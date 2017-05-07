@@ -1,27 +1,27 @@
 import Point from '../src/Point'
 
 describe('Point', () => {
-  describe('x()', () => {
+  describe('x', () => {
     test('zero', () => {
       const subject: Point = new Point(0, 0)
-      expect(subject.x()).toBe(0)
+      expect(subject.x).toBe(0)
     })
 
     test('nonzero', () => {
       const subject: Point = new Point(1, 0)
-      expect(subject.x()).toBe(1)
+      expect(subject.x).toBe(1)
     })
   })
 
-  describe('y()', () => {
+  describe('y', () => {
     test('zero', () => {
       const subject: Point = new Point(0, 0)
-      expect(subject.y()).toBe(0)
+      expect(subject.y).toBe(0)
     })
 
     test('nonzero', () => {
       const subject: Point = new Point(0, 1)
-      expect(subject.y()).toBe(1)
+      expect(subject.y).toBe(1)
     })
   })
 

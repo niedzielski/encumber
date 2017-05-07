@@ -20,10 +20,8 @@ export default class Rectangle {
   public static sortDescendingArea(array: Rectangle[]) {
     return array.sort((lhs: Rectangle, rhs: Rectangle): number =>
       rhs.area() - lhs.area()
-      || rhs.maximum().x() - lhs.maximum().x()
-      || rhs.maximum().y() - lhs.maximum().y()
-      || rhs.minimum().x() - lhs.minimum().x()
-      || rhs.minimum().y() - lhs.minimum().y())
+      || rhs.maximum.x - lhs.maximum.x || rhs.maximum.y - lhs.maximum.y
+      || rhs.minimum.x - lhs.minimum.x || rhs.minimum.y - lhs.minimum.y)
   }
 
   private readonly _minimum: Point
@@ -40,21 +38,21 @@ export default class Rectangle {
 
   /** @return {!Point} The Point describing the corner with the minimum x and
                        y-coordinate. */
-  minimum(): Point { return this._minimum }
+  get minimum(): Point { return this._minimum }
 
   /** @return {!Point} The Point describing the corner with the maximum x and
                        y-coordinate. */
-  maximum(): Point { return this._maximum }
+  get maximum(): Point { return this._maximum }
 
   // todo: center
 
   /** @return {!number} The number of units between the minimum and maximum
                         x-coordinates of the Rectangle. */
-  width(): number { return Math.abs(this.minimum().x() - this.maximum().x()) }
+  width(): number { return Math.abs(this.minimum.x - this.maximum.x) }
 
   /** @return {!number} The number of units between the minimum and maximum
                         y-coordinates of the Rectangle. */
-  height(): number { return Math.abs(this.minimum().y() - this.maximum().y()) }
+  height(): number { return Math.abs(this.minimum.y - this.maximum.y) }
 
   /** @return {!number} The magnitude between opposite points of the
                         Rectangle. */
@@ -83,8 +81,8 @@ export default class Rectangle {
                          considered intersecting and may also be considered
                          disjoint by the client. */
   containsPoint(point: Point): boolean {
-    return point.x() >= this.minimum().x() && point.x() <= this.maximum().x()
-      && point.y() >= this.minimum().y() && point.y() <= this.maximum().y()
+    return point.x >= this.minimum.x && point.x <= this.maximum.x
+      && point.y >= this.minimum.y && point.y <= this.maximum.y
   }
 
   /** Noncommutative.
@@ -93,18 +91,18 @@ export default class Rectangle {
                          false if rectangle is partially or completely
                          external. */
   containsRectangle(rectangle: Rectangle): boolean {
-    return this.containsPoint(rectangle.minimum())
-      && this.containsPoint(rectangle.maximum())
+    return this.containsPoint(rectangle.minimum)
+      && this.containsPoint(rectangle.maximum)
   }
 
   /** @arg {!Rectangle} rectangle
       @return {!Rectangle} The overlap of this Rectangle and rectangle, possibly
                            empty, bounded by this Rectangle. */
   intersection(rectangle: Rectangle): Rectangle {
-    const minimum: Point = Rectangle._minimum(this.maximum(),
-      Rectangle._maximum(this.minimum(), rectangle.minimum()))
-    const maximum: Point = Rectangle._maximum(this.minimum(),
-      Rectangle._minimum(this.maximum(), rectangle.maximum()))
+    const minimum: Point = Rectangle._minimum(this.maximum,
+      Rectangle._maximum(this.minimum, rectangle.minimum))
+    const maximum: Point = Rectangle._maximum(this.minimum,
+      Rectangle._minimum(this.maximum, rectangle.maximum))
 
     return new Rectangle(minimum, maximum)
   }
@@ -114,7 +112,7 @@ export default class Rectangle {
                          Rectangles are disjoint. */
   intersects(rectangle: Rectangle): boolean {
     const intersection: Rectangle = this.intersection(rectangle)
-    const point: Point = intersection.minimum()
+    const point: Point = intersection.minimum
     return !!intersection.area()
       || this.containsPoint(point) && rectangle.containsPoint(point)
   }
@@ -128,17 +126,17 @@ export default class Rectangle {
     const intersection: Rectangle = this.intersection(rectangle)
 
     const top: Rectangle = new Rectangle(
-      new Point(this.minimum().x(), intersection.maximum().y()), this.maximum()
+      new Point(this.minimum.x, intersection.maximum.y), this.maximum
     )
 
-    const left: Rectangle = new Rectangle(this.minimum(),
-      new Point(intersection.minimum().x(), this.maximum().y()))
+    const left: Rectangle = new Rectangle(this.minimum,
+      new Point(intersection.minimum.x, this.maximum.y))
 
-    const bottom: Rectangle = new Rectangle(this.minimum(),
-      new Point(this.maximum().x(), intersection.minimum().y()))
+    const bottom: Rectangle = new Rectangle(this.minimum,
+      new Point(this.maximum.x, intersection.minimum.y))
 
     const right: Rectangle = new Rectangle(
-      new Point(intersection.maximum().x(), this.minimum().y()), this.maximum()
+      new Point(intersection.maximum.x, this.minimum.y), this.maximum
     )
 
     return Rectangle.filterNonemptySuperset([top, left, bottom, right])
@@ -148,14 +146,13 @@ export default class Rectangle {
       @return {!boolean} true if both Rectangles can be described by the same
                          corner Points, false otherwise. */
   equal(rhs?: Rectangle): boolean {
-    return !!rhs
-      && this.minimum().equal(rhs.minimum())
-      && this.maximum().equal(rhs.maximum())
+    return !!rhs && this.minimum.equal(rhs.minimum)
+      && this.maximum.equal(rhs.maximum)
   }
 
   toString(): string {
-    const minimum: string = `${this.minimum().x()} ${this.minimum().y()}`
-    const maximum: string = `${this.maximum().x()} ${this.maximum().y()}`
+    const minimum: string = `${this.minimum.x} ${this.minimum.y}`
+    const maximum: string = `${this.maximum.x} ${this.maximum.y}`
     return `|${minimum} ${maximum}|`
   }
 
@@ -167,8 +164,7 @@ export default class Rectangle {
       @return {!Point} The Point describing the corner with the minimum x and
                        y-coordinate. */
   private static _minimum(point0: Point, point1: Point): Point {
-    return new Point(Math.min(point0.x(), point1.x()),
-      Math.min(point0.y(), point1.y()))
+    return new Point(Math.min(point0.x, point1.x), Math.min(point0.y, point1.y))
   }
 
   /** @arg {!Point} point0
@@ -176,7 +172,6 @@ export default class Rectangle {
       @return {!Point} The Point describing the corner with the maximum x and
                        y-coordinate. */
   private static _maximum(point0: Point, point1: Point): Point {
-    return new Point(Math.max(point0.x(), point1.x()),
-      Math.max(point0.y(), point1.y()))
+    return new Point(Math.max(point0.x, point1.x), Math.max(point0.y, point1.y))
   }
 }

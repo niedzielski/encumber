@@ -7,12 +7,12 @@ describe('Rectangle', () => {
     const point: Point = new Point(0, 0)
     const subject: Rectangle = new Rectangle(point, point)
 
-    test('minimum()', () => {
-      expect(subject.minimum().equal(point)).toBe(true)
+    test('minimum', () => {
+      expect(subject.minimum.equal(point)).toBe(true)
     })
 
-    test('maximum()', () => {
-      expect(subject.maximum().equal(point)).toBe(true)
+    test('maximum', () => {
+      expect(subject.maximum.equal(point)).toBe(true)
     })
 
     test('width()', () => expect(subject.width()).toBe(0))
@@ -102,14 +102,14 @@ describe('Rectangle', () => {
             expect(subject.equal(subject)).toBe(true)
           })
 
-          test('minimum()', () => {
+          test('minimum', () => {
             const point: Point = new Point(Math.min(0, sign), Math.min(0, sign))
-            expect(subject.minimum().equal(point)).toBe(true)
+            expect(subject.minimum.equal(point)).toBe(true)
           })
 
-          test('maximum()', () => {
+          test('maximum', () => {
             const point: Point = new Point(Math.max(0, sign), Math.max(0, sign))
-            expect(subject.maximum().equal(point)).toBe(true)
+            expect(subject.maximum.equal(point)).toBe(true)
           })
 
           test('width()', () => expect(subject.width()).toBe(1))
@@ -165,8 +165,8 @@ describe('Rectangle', () => {
             })
 
             test('intersection()', () => {
-              const expected: Rectangle = new Rectangle(subject.maximum(),
-                subject.maximum())
+              const expected: Rectangle = new Rectangle(subject.maximum,
+                subject.maximum)
               expect(subject.intersection(input).equal(expected))
                 .toBe(true)
             })
@@ -196,12 +196,12 @@ describe('Rectangle', () => {
     const maximum: Point = new Point(6, 4)
     const subject: Rectangle = new Rectangle(minimum, maximum)
 
-    test('minimum()', () => {
-      expect(subject.minimum().equal(minimum)).toBe(true)
+    test('minimum', () => {
+      expect(subject.minimum.equal(minimum)).toBe(true)
     })
 
-    test('maximum()', () => {
-      expect(subject.maximum().equal(maximum)).toBe(true)
+    test('maximum', () => {
+      expect(subject.maximum.equal(maximum)).toBe(true)
     })
 
     test('width()', () => expect(subject.width()).toBe(4))
