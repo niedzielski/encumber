@@ -106,31 +106,6 @@ describe('RectangleArray', () => {
       expect(subject.complement(input).equal(expected)).toBe(true)
     })
 
-    test('difference [|0 0 0 0|]', () => {
-      const input: RectangleArray = new RectangleArray(
-        new Rectangle(new Point(0, 0), new Point(0, 0))
-      )
-      expect(subject.difference(input).equal(subject)).toBe(true)
-    })
-
-    test('difference [|0 0 1 1|]', () => {
-      const input: RectangleArray = new RectangleArray(
-        new Rectangle(new Point(0, 0), new Point(1, 1))
-      )
-      expect(subject.difference(input).equal(subject)).toBe(true)
-    })
-
-    test('difference [|0 0 3 1|]', () => {
-      const input: RectangleArray = new RectangleArray(
-        new Rectangle(new Point(0, 0), new Point(3, 1))
-      )
-      expect(subject.difference(input).equal(subject)).toBe(true)
-    })
-
-    test('difference self', () => {
-      expect(subject.difference(subject).equal(new RectangleArray())).toBe(true)
-    })
-
     test('remove |0 0 0 0|', () => {
       subject.remove(new Rectangle(new Point(0, 0), new Point(0, 0)))
       expect(subject.equal(new RectangleArray(a))).toBe(true)
@@ -279,29 +254,6 @@ describe('RectangleArray', () => {
       expect(subject.complement(input).equal(expected)).toBe(true)
     })
 
-    test('difference [a|0 0 0 0|]', () => {
-      const input: RectangleArray = new RectangleArray(a)
-      const expected: RectangleArray = new RectangleArray(b, c, d, e, f)
-      expect(subject.difference(input).equal(expected)).toBe(true)
-    })
-
-    test('difference [b|0 0 1 1|]', () => {
-      const input: RectangleArray = new RectangleArray(b)
-      const expected: RectangleArray = new RectangleArray(a, c, d, e, f)
-      expect(subject.difference(input).equal(expected)).toBe(true)
-    })
-
-    test('difference [|0 0 3 1|]', () => {
-      const input: RectangleArray = new RectangleArray(
-        new Rectangle(new Point(0, 0), new Point(3, 1))
-      )
-      expect(subject.difference(input).equal(subject)).toBe(true)
-    })
-
-    test('difference self', () => {
-      expect(subject.difference(subject).equal(new RectangleArray())).toBe(true)
-    })
-
     test('remove a|0 0 0 0|', () => {
       subject.remove(a)
       expect(subject.equal(new RectangleArray(b, c, d, e, f))).toBe(true)
@@ -417,31 +369,6 @@ describe('RectangleArray', () => {
     test('complement |0 0 3 1|', () => {
       const input: Rectangle = new Rectangle(new Point(0, 0), new Point(3, 1))
       expect(subject.complement(input).equal(subject)).toBe(true)
-    })
-
-    test('difference [|0 0 0 0|]', () => {
-      const input: RectangleArray = new RectangleArray(
-        new Rectangle(new Point(0, 0), new Point(0, 0))
-      )
-      expect(subject.difference(input).equal(subject)).toBe(true)
-    })
-
-    test('difference [|0 0 1 1|]', () => {
-      const input: RectangleArray = new RectangleArray(
-        new Rectangle(new Point(0, 0), new Point(1, 1))
-      )
-      expect(subject.difference(input).equal(subject)).toBe(true)
-    })
-
-    test('difference [|0 0 3 1|]', () => {
-      const input: RectangleArray = new RectangleArray(
-        new Rectangle(new Point(0, 0), new Point(3, 1))
-      )
-      expect(subject.difference(input).equal(subject)).toBe(true)
-    })
-
-    test('difference self', () => {
-      expect(subject.difference(subject).equal(subject)).toBe(true)
     })
 
     test('remove |0 0 0 0|', () => {

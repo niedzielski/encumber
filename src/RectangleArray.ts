@@ -50,15 +50,6 @@ export default class RectangleArray extends Array<Rectangle> {
     ))
   }
 
-  /** @arg {!RectangleArray} array
-      @return {!RectangleArray} A copy of this RectangleArray less array
-                                entries. */
-  difference(array: RectangleArray): RectangleArray {
-    const result: RectangleArray = new RectangleArray(...this)
-    for (const entry of array) result.remove(entry)
-    return result
-  }
-
   /** @arg {!Rectangle} rectangle
       @return {?Rectangle} The first Rectangle equal to rectangle if found,
                            undefined if not present. */
