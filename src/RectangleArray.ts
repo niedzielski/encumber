@@ -68,15 +68,10 @@ export default class RectangleArray extends Array<Rectangle> {
     return this.findIndex((entry: Rectangle) => entry.equal(rectangle))
   }
 
-  // todo: consider order here. The client should decide whether order is
-  //       important in how they construct Rectangles and RectangleArrays. This
-  //       isn't a concern here.
-  /** @arg {?RectangleArray} array
-      @return {!boolean} true if both arrays have identical unordered sequences,
-                         false if entry memberships differ. */
-  equal(array?: RectangleArray): boolean {
-    return !!array
-      && this.length === array.length && !this.difference(array).length
+  equal(rhs?: RectangleArray): boolean {
+    return !!rhs && this.length === rhs.length
+      && this.every((entry: Rectangle, index: number) =>
+        entry.equal(rhs[index]))
   }
 
   toString() {
