@@ -291,9 +291,9 @@ describe('Rectangle', () => {
         const actual: Rectangle[] = subject.complement(input)
         const expected: Rectangle[] = [
           new Rectangle(new Point(2, 3), new Point(6, 4)),
-          new Rectangle(new Point(2, 1), new Point(3, 4)),
           new Rectangle(new Point(2, 1), new Point(6, 2)),
-          new Rectangle(new Point(5, 1), new Point(6, 4))
+          new Rectangle(new Point(5, 1), new Point(6, 4)),
+          new Rectangle(new Point(2, 1), new Point(3, 4))
         ]
         expect(actual.length).toBe(4)
         expect(actual[0].equal(expected[0])).toBe(true)
@@ -354,8 +354,8 @@ describe('Rectangle', () => {
       test('complement()', () => {
         const actual: Rectangle[] = subject.complement(input)
         const expected: Rectangle[] = [
-          new Rectangle(new Point(2, 3), new Point(6, 4)),
-          new Rectangle(new Point(3, 1), new Point(6, 4))
+          new Rectangle(new Point(3, 1), new Point(6, 4)),
+          new Rectangle(new Point(2, 3), new Point(6, 4))
         ]
         expect(actual.length).toBe(2)
         expect(actual[0].equal(expected[0])).toBe(true)

@@ -8,13 +8,22 @@ export default class Rectangle {
   }
 
   public static filterNonemptySuperset(array: Rectangle[]): Rectangle[] {
-    // eslint-disable-next-line max-len
-    return array.reduce((result: Rectangle[], entry: Rectangle): Rectangle[] => {
-      if (!entry.empty() && !Rectangle.entryContains(result, entry)) {
-        result.push(entry)
-      }
-      return result
-    }, [])
+    return Rectangle.sortDescendingArea(array.slice())
+      .reduce((result: Rectangle[], entry: Rectangle): Rectangle[] => {
+        if (!entry.empty() && !Rectangle.entryContains(result, entry)) {
+          result.push(entry)
+        }
+        return result
+      }, [])
+  }
+
+  public static sortDescendingArea(array: Rectangle[]) {
+    return array.sort((lhs: Rectangle, rhs: Rectangle): number =>
+      rhs.area() - lhs.area()
+      || rhs.maximum().x() - lhs.maximum().x()
+      || rhs.maximum().y() - lhs.maximum().y()
+      || rhs.minimum().x() - lhs.minimum().x()
+      || rhs.minimum().y() - lhs.minimum().y())
   }
 
   private readonly _minimum: Point
