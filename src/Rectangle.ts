@@ -145,9 +145,9 @@ export default class Rectangle {
   }
 
   toString(): string {
-    const point0: string = `${this.minimum().x()} ${this.minimum().y()}`
-    const point1: string = `${this.maximum().x()} ${this.maximum().y()}`
-    return `|${point0} ${point1}|`
+    const minimum: string = `${this.minimum().x()} ${this.minimum().y()}`
+    const maximum: string = `${this.maximum().x()} ${this.maximum().y()}`
+    return `|${minimum} ${maximum}|`
   }
 
   // todo: translate
