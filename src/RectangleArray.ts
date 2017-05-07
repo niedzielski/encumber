@@ -14,7 +14,7 @@ export default class RectangleArray extends Array<Rectangle> {
   /** @arg {!Rectangle} rectangle
       @return {!boolean} true if rectangle is an entry, false if absent. */
   has(rectangle: Rectangle): boolean {
-    return this.some((entry: Rectangle): boolean => entry.equal(rectangle))
+    return this.indexOf(rectangle) > -1
   }
 
   /** @arg {!Point} point
