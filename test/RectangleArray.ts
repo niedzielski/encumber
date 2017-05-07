@@ -6,7 +6,10 @@ import RectangleArray from '../src/RectangleArray'
 describe('RectangleArray', () => {
   describe('[a|-1 -1 1 1|]', () => {
     const a: Rectangle = new Rectangle(new Point(-1, -1), new Point(1, 1))
-    const subject: RectangleArray = new RectangleArray(a)
+    let subject: RectangleArray
+    beforeEach(() => {
+      subject = new RectangleArray(a)
+    })
 
     test('has |0 0 0 0|', () => {
       const input: Rectangle = new Rectangle(new Point(0, 0), new Point(0, 0))
@@ -129,23 +132,23 @@ describe('RectangleArray', () => {
     })
 
     test('remove |0 0 0 0|', () => {
-      const input: Rectangle = new Rectangle(new Point(0, 0), new Point(0, 0))
-      expect(subject.remove(input).equal(subject)).toBe(true)
+      subject.remove(new Rectangle(new Point(0, 0), new Point(0, 0)))
+      expect(subject.equal(new RectangleArray(a))).toBe(true)
     })
 
     test('remove |0 0 1 1|', () => {
-      const input: Rectangle = new Rectangle(new Point(0, 0), new Point(1, 1))
-      expect(subject.remove(input).equal(subject)).toBe(true)
+      subject.remove(new Rectangle(new Point(0, 0), new Point(1, 1)))
+      expect(subject.equal(new RectangleArray(a))).toBe(true)
     })
 
     test('remove |0 0 3 1|', () => {
-      const input: Rectangle = new Rectangle(new Point(0, 0), new Point(3, 1))
-      expect(subject.remove(input).equal(subject)).toBe(true)
+      subject.remove(new Rectangle(new Point(0, 0), new Point(3, 1)))
+      expect(subject.equal(new RectangleArray(a))).toBe(true)
     })
 
     test('remove |-1 -1 1 1|', () => {
-      const input: Rectangle = new Rectangle(new Point(-1, -1), new Point(1, 1))
-      expect(subject.remove(input).equal(new RectangleArray())).toBe(true)
+      subject.remove(new Rectangle(new Point(-1, -1), new Point(1, 1)))
+      expect(subject.equal(new RectangleArray())).toBe(true)
     })
 
     test('indexOf |0 0 0 0|', () => {
@@ -190,7 +193,10 @@ describe('RectangleArray', () => {
     const d: Rectangle = new Rectangle(new Point(4, 4), new Point(4, 4))
     const e: Rectangle = new Rectangle(new Point(4, 4), new Point(4, 4))
     const f: Rectangle = new Rectangle(new Point(4, 1), new Point(5, 4))
-    const subject: RectangleArray = new RectangleArray(a, b, c, d, e, f)
+    let subject: RectangleArray
+    beforeEach(() => {
+      subject = new RectangleArray(a, b, c, d, e, f)
+    })
 
     test('has a|0 0 0 0|', () => {
       expect(subject.has(a)).toBe(true)
@@ -297,18 +303,18 @@ describe('RectangleArray', () => {
     })
 
     test('remove a|0 0 0 0|', () => {
-      const expected: RectangleArray = new RectangleArray(b, c, d, e, f)
-      expect(subject.remove(a).equal(expected)).toBe(true)
+      subject.remove(a)
+      expect(subject.equal(new RectangleArray(b, c, d, e, f))).toBe(true)
     })
 
     test('remove b|0 0 1 1|', () => {
-      const expected: RectangleArray = new RectangleArray(a, c, d, e, f)
-      expect(subject.remove(b).equal(expected)).toBe(true)
+      subject.remove(b)
+      expect(subject.equal(new RectangleArray(a, c, d, e, f))).toBe(true)
     })
 
     test('remove |0 0 3 1|', () => {
-      const input: Rectangle = new Rectangle(new Point(0, 0), new Point(3, 1))
-      expect(subject.remove(input).equal(subject)).toBe(true)
+      subject.remove(new Rectangle(new Point(0, 0), new Point(3, 1)))
+      expect(subject.equal(new RectangleArray(a, b, c, d, e, f))).toBe(true)
     })
 
     test('indexOf a|0 0 0 0|', () => {
@@ -336,7 +342,10 @@ describe('RectangleArray', () => {
   })
 
   describe('[]', () => {
-    const subject: RectangleArray = new RectangleArray()
+    let subject: RectangleArray
+    beforeEach(() => {
+      subject = new RectangleArray()
+    })
 
     test('has |0 0 0 0|', () => {
       const input: Rectangle = new Rectangle(new Point(0, 0), new Point(0, 0))
@@ -436,18 +445,18 @@ describe('RectangleArray', () => {
     })
 
     test('remove |0 0 0 0|', () => {
-      const input: Rectangle = new Rectangle(new Point(0, 0), new Point(0, 0))
-      expect(subject.remove(input).equal(subject)).toBe(true)
+      subject.remove(new Rectangle(new Point(0, 0), new Point(0, 0)))
+      expect(subject.equal(new RectangleArray())).toBe(true)
     })
 
     test('remove |0 0 1 1|', () => {
-      const input: Rectangle = new Rectangle(new Point(0, 0), new Point(1, 1))
-      expect(subject.remove(input).equal(subject)).toBe(true)
+      subject.remove(new Rectangle(new Point(0, 0), new Point(1, 1)))
+      expect(subject.equal(new RectangleArray())).toBe(true)
     })
 
     test('remove |0 0 3 1|', () => {
-      const input: Rectangle = new Rectangle(new Point(0, 0), new Point(3, 1))
-      expect(subject.remove(input).equal(subject)).toBe(true)
+      subject.remove(new Rectangle(new Point(0, 0), new Point(3, 1)))
+      expect(subject.equal(new RectangleArray())).toBe(true)
     })
 
     test('indexOf |0 0 0 0|', () => {

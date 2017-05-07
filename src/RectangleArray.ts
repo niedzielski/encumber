@@ -50,24 +50,34 @@ export default class RectangleArray extends Array<Rectangle> {
     ))
   }
 
+  /** @arg {!RectangleArray} array
+      @return {!RectangleArray} A copy of this RectangleArray less array
+                                entries. */
   difference(array: RectangleArray): RectangleArray {
-    // eslint-disable-next-line no-shadow
-    const reduce = (array: RectangleArray, entry: Rectangle): RectangleArray =>
-      array.remove(entry)
-    return array.reduce(reduce, this)
-  }
-
-  remove(rectangle: Rectangle): RectangleArray {
     const result: RectangleArray = new RectangleArray(...this)
-    const index: number = result.indexOf(rectangle)
-    if (index > -1) result.splice(index, 1)
+    for (const entry of array) result.remove(entry)
     return result
   }
 
+  /** @arg {!Rectangle} rectangle
+      @return {?Rectangle} The first Rectangle equal to rectangle if found,
+                           undefined if not present. */
+  remove(rectangle: Rectangle): Rectangle|undefined {
+    const index: number = this.indexOf(rectangle)
+    if (index > -1) return this.splice(index, 1)[0]
+    return undefined
+  }
+
+  /** @arg {!Rectangle} rectangle
+      @return {!number} The first index of rectangle if present, otherwise
+                        -1. */
   indexOf(rectangle: Rectangle): number {
     return this.findIndex((entry: Rectangle) => entry.equal(rectangle))
   }
 
+  /** @arg {?RectangleArray} array
+      @return {!boolean} true if both arrays have identical entries and order,
+                         false if either order or entries differ. */
   equal(rhs?: RectangleArray): boolean {
     return !!rhs && this.length === rhs.length
       && this.every((entry: Rectangle, index: number) =>
