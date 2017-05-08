@@ -1,4 +1,4 @@
-import Point from '../src/Point'
+import Point from '../../src/geometry/Point'
 
 describe('Point', () => {
   describe('x', () => {

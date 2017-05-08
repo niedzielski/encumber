@@ -1,6 +1,6 @@
 // eslint-disable-line max-lines
-import Point from '../src/Point'
-import Rectangle from '../src/Rectangle'
+import Point from '../../src/geometry/Point'
+import Rectangle from '../../src/geometry/Rectangle'
 
 describe('Rectangle', () => {
   describe('Given an empty Rectangle at the origin |0 0 0 0|', () => {

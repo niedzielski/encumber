@@ -1,7 +1,7 @@
-import Grid from '../src/Grid'
-import Point from '../src/Point'
-import Rectangle from '../src/Rectangle'
-import RectangleArray from '../src/RectangleArray'
+import Grid from '../../src/geometry/Grid'
+import Point from '../../src/geometry/Point'
+import Rectangle from '../../src/geometry/Rectangle'
+import RectangleArray from '../../src/geometry/RectangleArray'
 
 describe('Grid', () => {
   //  aa

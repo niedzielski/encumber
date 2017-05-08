@@ -1,7 +1,7 @@
 // eslint-disable-line max-lines
-import Point from '../src/Point'
-import Rectangle from '../src/Rectangle'
-import RectangleArray from '../src/RectangleArray'
+import Point from '../../src/geometry/Point'
+import Rectangle from '../../src/geometry/Rectangle'
+import RectangleArray from '../../src/geometry/RectangleArray'
 
 describe('RectangleArray', () => {
   describe('[a|-1 -1 1 1|]', () => {
